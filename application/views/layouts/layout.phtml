@@ -1,0 +1,31 @@
+<?php echo $this->doctype(); ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Real Time Version Control System</title>
+    <link href="/css/style.css" media="screen" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/js/codemirror/codemirror.js"></script>
+    <script type="text/javascript" src="/js/dojo.js"></script>
+    <script type="text/javascript" src="/js/scripts.js"></script>
+</head>
+
+<body>
+
+<div id="menu">
+<?php echo $this->render('menu.phtml'); ?>
+</div>
+
+<div id="navigation">
+<?php echo $this->render('navigation.phtml'); ?>
+</div>
+
+<div id="content">
+<?php echo $this->layout()->content; ?>
+</div>
+
+<div id="footer">
+<?php echo $this->render('footer.phtml'); ?>
+</div>
+
+</body>
+</html>

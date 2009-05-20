@@ -1,0 +1,26 @@
+<script type="text/javascript">
+//<![CDATA[
+var editor = new CodeMirror.fromTextArea('code', {
+    height: "500px",
+    lineNumbers: true,
+    textWrapping: false,
+    tabMode: "shift",
+    indentUnit: 4,
+    path: "js/codemirror/",
+    parserfile: [
+        "parsexml.js",
+        "parsecss.js",
+        "tokenizejavascript.js",
+        "parsejavascript.js",
+        "tokenizephp.js",
+        "parsephp.js",
+        "parsephphtmlmixed.js"
+        ],
+    stylesheet: [
+        "css/codemirror/xmlcolors.css",
+        "css/codemirror/jscolors.css",
+        "css/codemirror/csscolors.css",
+        "css/codemirror/phpcolors.css"]
+});
+//]]>
+</script>

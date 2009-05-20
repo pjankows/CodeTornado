@@ -1,0 +1,9 @@
+<form id="editorForm" method="post" action="/">
+<div id="codeBorder">
+<textarea name="code" id="code" rows="25" cols="80"><?php echo $this->escape($this->content); ?></textarea>
+</div>
+<input type="text" name="commitMessage" class="inputtext" />
+<input type="submit" name="Commit" value="Commit" />
+</form>
+<?php echo $this->result; ?>
+<?php echo $this->partial('/codemirror/default.phtml'); ?>

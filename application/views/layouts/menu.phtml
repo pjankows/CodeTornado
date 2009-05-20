@@ -1,0 +1,16 @@
+<?php if($this->loggedIn) { ?>
+<span>Logged in as: <?php echo $this->loggedIn->name; ?></span><br>
+<?php } ?>
+<?php if($this->active) { ?>
+<span>Selected project: <?php echo $this->active->name; ?></span><br>
+<?php } ?>
+
+<?php if( $this->loggedIn == false ) { ?>
+    <a href="/user/login/">Login</a>
+    <a href="/user/register/">Register</a>
+<?php } else { ?>
+    <a href="/user/logout/">Logout</a>
+    <a href="/project/new/">New Project</a>
+    <a href="/project/join/">Join Project</a>
+    <a href="/project/select/">Select Project</a>
+<?php } ?>

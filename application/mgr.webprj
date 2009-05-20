@@ -1,0 +1,68 @@
+<!DOCTYPE webproject>
+<webproject>
+  <project type="Local" name="Mgr" encoding="utf8" enableEvents="true" >
+    <upload/>
+    <defaultDTD>-//w3c//dtd xhtml 1.0 strict//en</defaultDTD>
+    <item url="controllers/" uploadstatus="1" />
+    <item modified_time="1241575257" url="controllers/AjaxController.php" uploadstatus="1" />
+    <item modified_time="1240965930" url="controllers/ErrorController.php" uploadstatus="1" />
+    <item modified_time="1242194355" url="controllers/IndexController.php" uploadstatus="1" />
+    <item url="models/" uploadstatus="1" />
+    <item modified_time="1240911512" url="models/DbModel.php" uploadstatus="1" />
+    <item modified_time="1242190960" url="models/FileNavigation.php" uploadstatus="1" />
+    <item modified_time="1241013053" url="models/Git.php" uploadstatus="1" />
+    <item modified_time="1242178811" url="models/RawIO.php" uploadstatus="1" />
+    <item url="views/" uploadstatus="1" />
+    <item url="views/scripts/" uploadstatus="1" />
+    <item url="views/scripts/error/" uploadstatus="1" />
+    <item modified_time="1240756692" url="views/scripts/error/error.phtml" uploadstatus="1" />
+    <item url="views/scripts/index/" uploadstatus="1" />
+    <item modified_time="1241888911" url="views/scripts/index/index.phtml" uploadstatus="1" />
+    <item modified_time="1241951171" url="bootstrap.php" uploadstatus="1" />
+    <item url="" uploadstatus="1" />
+    <templates>templates/</templates>
+    <toolbars>toolbars/</toolbars>
+    <annotations/>
+    <item modified_time="1242194390" url="global.css" uploadstatus="1" />
+    <item url="views/scripts/codemirror/" uploadstatus="1" />
+    <item modified_time="1242177997" url="views/scripts/codemirror/default.phtml" uploadstatus="1" />
+    <item modified_time="1241729526" url="controllers/MainController.php" uploadstatus="1" />
+    <item modified_time="1242181018" url="models/User.php" uploadstatus="1" />
+    <item modified_time="1242177151" url="controllers/UserController.php" uploadstatus="1" />
+    <item url="views/scripts/user/" uploadstatus="1" />
+    <item modified_time="1241033109" url="views/scripts/user/login.phtml" uploadstatus="1" />
+    <item modified_time="1241033129" url="views/scripts/user/register.phtml" uploadstatus="1" />
+    <item url="views/layouts/" uploadstatus="1" />
+    <item modified_time="1241951320" url="views/layouts/layout.phtml" uploadstatus="1" />
+    <item url="forms/" uploadstatus="1" />
+    <item modified_time="1241000813" url="models/Brute.php" uploadstatus="1" />
+    <item modified_time="1242177200" url="models/Project.php" uploadstatus="1" />
+    <item modified_time="1241004015" url="forms/RegisterForm.php" uploadstatus="1" />
+    <item modified_time="1241597716" url="forms/LoginForm.php" uploadstatus="1" />
+    <item modified_time="1242077762" url="controllers/ProjectController.php" uploadstatus="1" />
+    <item modified_time="1242189792" url="forms/NewProjectForm.php" uploadstatus="1" />
+    <item url="views/scripts/project/" uploadstatus="1" />
+    <item modified_time="1241560543" url="views/scripts/project/new.phtml" uploadstatus="1" />
+    <item modified_time="1241889021" url="views/layouts/menu.phtml" uploadstatus="1" />
+    <item modified_time="1242184084" url="views/layouts/navigation.phtml" uploadstatus="1" />
+    <item modified_time="1241895518" url="forms/JoinProjectForm.php" uploadstatus="1" />
+    <item modified_time="1242177035" url="views/scripts/project/select.phtml" uploadstatus="1" />
+    <item modified_time="1241612840" url="views/scripts/project/join.phtml" uploadstatus="1" />
+    <item modified_time="1239376521" url="index.php" uploadstatus="1" />
+    <author>Piotr Jankowski</author>
+    <email>pjankows@gmail.com</email>
+    <debuggerclient persistentWatches="0" persistentBreakpoints="0" >No Debugger</debuggerclient>
+    <exclude cvsignore="false" />
+    <teamdata>
+      <taskleaders/>
+      <subprojectleaders/>
+      <mailinglist address="" />
+    </teamdata>
+    <events/>
+    <item modified_time="1241919214" url="config.php" uploadstatus="1" />
+    <item modified_time="1241951303" url="views/layouts/footer.phtml" uploadstatus="1" />
+    <item modified_time="1242191399" url="forms/NewFileForm.php" uploadstatus="1" />
+    <item url="scripts.js" />
+    <item url="style.css" />
+  </project>
+</webproject>
