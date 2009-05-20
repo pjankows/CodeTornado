@@ -1,4 +1,5 @@
 <?php
+require_once MODEL_PATH . 'Git.php';
 class Project extends DbModel
 {
     const NO_USER = 'No user logged in';
@@ -73,7 +74,6 @@ class Project extends DbModel
 
     /**
      * Associate user with the project. Owner is automatically assigned by newProject calling this method.
-     * TODO: setup an empty git repository
     */
     public function joinProject($pid)
     {
@@ -96,6 +96,8 @@ class Project extends DbModel
             {
                 throw new Exception('Unable to create a user directory in the project folder');
             }
+            $git = new Git( $this->getPath() . $this->_user->getPath() );
+            $git->init();
         }
     }
 

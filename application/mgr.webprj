@@ -23,7 +23,6 @@
     <templates>templates/</templates>
     <toolbars>toolbars/</toolbars>
     <annotations/>
-    <item modified_time="1242194390" url="global.css" uploadstatus="1" />
     <item url="views/scripts/codemirror/" uploadstatus="1" />
     <item modified_time="1242177997" url="views/scripts/codemirror/default.phtml" uploadstatus="1" />
     <item modified_time="1241729526" url="controllers/MainController.php" uploadstatus="1" />
@@ -62,7 +61,10 @@
     <item modified_time="1241919214" url="config.php" uploadstatus="1" />
     <item modified_time="1241951303" url="views/layouts/footer.phtml" uploadstatus="1" />
     <item modified_time="1242191399" url="forms/NewFileForm.php" uploadstatus="1" />
-    <item url="scripts.js" />
-    <item url="style.css" />
+    <item url="scripts.js" uploadstatus="1" />
+    <item url="style.css" uploadstatus="1" />
+    <item url="controllers/TestController.php" />
+    <item url="views/scripts/test/" />
+    <item url="views/scripts/test/index.phtml" />
   </project>
 </webproject>

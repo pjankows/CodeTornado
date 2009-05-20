@@ -22,7 +22,7 @@ return array(
             'salt' => '5#6n$v78!9v|n%u6y',
             'git' => array
             (
-                'command' => 'git ',
+                'command' => 'git',
                 'path' => APPLICATION_PATH . '/../data/'
             ),
             'data' => array

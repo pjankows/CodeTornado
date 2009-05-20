@@ -135,7 +135,7 @@ class FileNavigation
         {
             foreach( $content as $name )
             {
-                if( $name !== '.' && $name !== '..' )
+                if( $name !== '.' && $name !== '..' && $name !== '.git' )
                 {
                     if( is_dir($this->_path . '/' .$name) )
                     {

@@ -56,9 +56,11 @@
     </uploadprofiles>
     <treestatus>
       <openfolder url="controllers" />
+      <openfolder url="forms" />
       <openfolder url="models" />
       <openfolder url="views" />
       <openfolder url="views/layouts" />
+      <openfolder url="views/scripts" />
     </treestatus>
   </session>
   <teamdata yourself="" />
