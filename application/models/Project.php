@@ -5,7 +5,7 @@ class Project extends DbModel
     const NO_USER = 'No user logged in';
 
     private $_session;
-    private $_user = false;
+    private $_userPath = false;
     private $_uid = false;
     private $_pid = false;
 
@@ -22,15 +22,12 @@ class Project extends DbModel
     }
 
     /**
-     * Set user model for extracting logged in user. Called by MainController init method.
+     * Set user data from model. Called by MainController init method.
     */
-    public function setUserModel($userModel)
+    public function setUserData($uid, $userPath)
     {
-        $this->_user = $userModel;
-        if( $this->_user->loggedIn )
-        {
-            $this->_uid = $this->_user->loggedIn->uid;
-        }
+        $this->_uid = $uid;
+        $this->_userPath = $userPath;
     }
 
     /**
@@ -88,15 +85,15 @@ class Project extends DbModel
         {
             //select the project as the active project once the required db entry exists
             $this->selectProject($pid);
-            if( file_exists( $this->getPath() . $this->_user->getPath() ) )
+            if( file_exists( $this->getPath() . $this->_userPath ) )
             {
                 throw new Exception('User directory in project folder already exists');
             }
-            if( ! mkdir( $this->getPath() . $this->_user->getPath() ) )
+            if( ! mkdir( $this->getPath() . $this->_userPath ) )
             {
                 throw new Exception('Unable to create a user directory in the project folder');
             }
-            $git = new Git( $this->getPath() . $this->_user->getPath() );
+            $git = new Git( $this->getPath() . $this->_userPath );
             $git->init();
         }
     }
