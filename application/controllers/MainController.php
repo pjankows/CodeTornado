@@ -22,7 +22,6 @@ abstract class MainController extends Zend_Controller_Action
         //$this->_project->setUserModel($this->_user);
         $this->view->loggedIn = $this->_user->loggedIn;
         $this->view->active = $this->_project->active;
-        //$this->_fileNav = new FileNavigation($this->_project, $this->_user);
         //$this->_branchNav = new BranchNavigation($this->_project, $this->_user);
     }
 }

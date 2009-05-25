@@ -8,7 +8,7 @@ class IndexController extends MainController
     public function indexAction()
     {
         $request = $this->getRequest();
-        $testfile = APPLICATION_PATH . '/../data/test.php';
+        //$testfile = APPLICATION_PATH . '/../data/test.php';
 
         $io = new RawIO();
         //$fileNavigation = new FileNavigation($this->_project, $this->_user);
@@ -19,7 +19,6 @@ class IndexController extends MainController
         if( $this->_user->loggedIn != false && $this->_project->active != false )
         {
             $fileNavigation = new FileNavigation( $this->_project->getPath(), $this->_user->getPath() );
-            $newFileForm = new NewFileForm();
             if( $request->isGet() )
             {
                 if( $request->getQuery('updir') != null )
@@ -40,21 +39,15 @@ class IndexController extends MainController
                     {
                         $file = $fileNavigation->getPath() . '/' . $request->getQuery('file');
                         $io->setFile($file);
+
                     }
                 }
             }
-            if( $request->isPost() && $request->getPost('new') == 'New' )
-            {
-                $post = $request->getPost();
-                if( $newFileForm->isValid($post) )
-                {
-                    $fileNavigation->newFile( $post );
-                }
-            }
 
-            $this->view->path = $fileNavigation->getDir();
+            $this->view->editing = $io->getFile();
+            $this->view->path = '/' . $fileNavigation->getDir();
             $this->view->files = $fileNavigation->ls();
-            $this->view->newFileForm = $newFileForm;
+            $this->view->newFileForm = new NewFileForm();
         }
 
         //save changes and do a commit

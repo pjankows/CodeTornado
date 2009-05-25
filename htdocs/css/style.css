@@ -15,14 +15,52 @@ h1{
     border-bottom: 0.2px solid silver;
 }
 
+div.title{
+    display: block;
+    padding: 6px 8px;
+    font-weight: bold;
+    background-color: #edece6;
+    text-decoration: none;
+    color: #000000;
+}
+
+
+#newfile{
+    position:absolute;
+    top: 150px;
+    left: 150px;
+    width: 150px;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    z-index: 100;
+}
+
+#newfile #name-label, #newfile #name-element{
+    margin: 10px;
+}
+
+#newfile #new-label, #newfile #cancel-label, #newfile #cancel-element, #newfile #new-element,
+#newfile #new, #newfile #cancel{
+    margin: 0px;
+    width: 60px;
+    display: inline;
+}
+
+#newfile #name-element #name{
+    width: 120px;
+}
+
 #navigation{
     float: left;
-    width: 15%;
+    width: 20%;
+    overflow: auto;
+    margin: 0;
     border-top: 1px solid #d9d8d1;
 }
 
-#navigation #name{
-    width: 80%;
+#navigation .list{
+    left:0;
+    margin-left:0;
 }
 
 #navigation .file{
@@ -39,7 +77,7 @@ h1{
 
 #content{
     float: left;
-    width: 70%;
+    width: 60%;
 }
 
 #codeBorder{
@@ -56,4 +94,8 @@ h1{
     margin: 0.4em;
     padding: 0;
     color: #999999;
+}
+
+.hidden{
+    display: none;
 }

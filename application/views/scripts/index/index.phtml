@@ -2,8 +2,12 @@
 <div id="codeBorder">
 <textarea name="code" id="code" rows="25" cols="80"><?php echo $this->escape($this->content); ?></textarea>
 </div>
-<input type="text" name="commitMessage" class="inputtext" />
-<input type="submit" name="Commit" value="Commit" />
+<p><input type="text" name="commitMessage" class="inputtext" />
+<input type="submit" name="Commit" value="Commit" /></p>
 </form>
 <?php echo $this->result; ?>
-<?php echo $this->partial('/codemirror/default.phtml'); ?>
+<script type="text/javascript">
+//<![CDATA[
+dojo.addOnLoad(init);
+//]]>
+</script>

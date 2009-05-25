@@ -13,6 +13,11 @@ class RawIO
         }
     }
 
+    public function getFile()
+    {
+        return( $this->_file );
+    }
+
     public function setFile($filename)
     {
         $this->_file = $filename;

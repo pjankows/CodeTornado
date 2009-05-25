@@ -1,8 +1,8 @@
 <?php if($this->loggedIn) { ?>
-<span>Logged in as: <?php echo $this->loggedIn->name; ?></span><br>
+<span>Logged in as: <?php echo $this->loggedIn->name; ?></span><br />
 <?php } ?>
 <?php if($this->active) { ?>
-<span>Selected project: <?php echo $this->active->name; ?></span><br>
+<span>Selected project: <?php echo $this->active->name; ?></span><br />
 <?php } ?>
 
 <?php if( $this->loggedIn == false ) { ?>
@@ -13,4 +13,7 @@
     <a href="/project/new/">New Project</a>
     <a href="/project/join/">Join Project</a>
     <a href="/project/select/">Select Project</a>
+<?php } ?>
+<?php if( $this->active == true ) { ?>
+    <a href="#" onclick="showNewFile();">New file</a>
 <?php } ?>

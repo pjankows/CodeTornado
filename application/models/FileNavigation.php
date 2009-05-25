@@ -1,4 +1,5 @@
 <?php
+require_once FORM_PATH . 'NewFileForm.php';
 class FileNavigation
 {
     private $_session;
