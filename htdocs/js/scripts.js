@@ -39,7 +39,7 @@ function newDirFormSubmit(e) {
     e.preventDefault();
     dojo.xhrPost({
         url: "/ajax/newdir/",
-        form: "newFileForm",
+        form: "newDirForm",
         handleAs: "text",
         load: function(data){
             dojo.byId("navigation").innerHTML = data;

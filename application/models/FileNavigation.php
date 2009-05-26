@@ -90,7 +90,10 @@ class FileNavigation
     {
         if( is_array($formData) && isset($formData['name']) )
         {
-            mkdir( $this->getPath() . $formData['name'] );
+            if( ! mkdir( $this->getPath() . $formData['name'] ) )
+            {
+                throw new Exception('Error creating directory ' . $this->getPath() . $formData['name'] );
+            }
         }
         else
         {
