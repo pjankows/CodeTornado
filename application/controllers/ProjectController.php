@@ -20,7 +20,7 @@ class ProjectController extends MainController
                 {
                     if( $this->_project->freeProjectName($post['name']) )
                     {
-                        $this->_project->newProject($post['name'], $this->_user->loggedIn->uid);
+                        $this->_project->newProject($post['name']);
                         $this->_redirect('/');
                     }
                     else

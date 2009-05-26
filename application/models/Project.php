@@ -5,9 +5,10 @@ class Project extends DbModel
     const NO_USER = 'No user logged in';
 
     private $_session;
-    private $_userPath = false;
     private $_uid = false;
-    private $_pid = false;
+    private $_userPath = false;
+    private $_userName = false;
+    private $_userEmail = false;
 
     public $active = false;
 
@@ -24,10 +25,12 @@ class Project extends DbModel
     /**
      * Set user data from model. Called by MainController init method.
     */
-    public function setUserData($uid, $userPath)
+    public function setUserData($uid, $userPath, $userName, $userEmail)
     {
         $this->_uid = $uid;
         $this->_userPath = $userPath;
+        $this->_userName = $userName;
+        $this->_userEmail = $userEmail;
     }
 
     /**
@@ -49,12 +52,7 @@ class Project extends DbModel
             $id = $this->_db->lastInsertId();
             //set the project id in object for internal usage and session storage later
             $data['pid'] = $id;
-
-
             $this->_store($data);
-            //$this->_pid = $id;
-            //convert the data array to stdClass object to match user model
-            //$this->active = (object) $data;
 
             if( file_exists( $this->getPath() ) )
             {
@@ -71,6 +69,7 @@ class Project extends DbModel
 
     /**
      * Associate user with the project. Owner is automatically assigned by newProject calling this method.
+     * This method also creates the git repository and assigns basic configuration
     */
     public function joinProject($pid)
     {
@@ -94,7 +93,7 @@ class Project extends DbModel
                 throw new Exception('Unable to create a user directory in the project folder');
             }
             $git = new Git( $this->getPath() . $this->_userPath );
-            $git->init();
+            $git->initRepo( $this->_userName, $this->_userEmail );
         }
     }
 
@@ -186,7 +185,7 @@ class Project extends DbModel
         {
             throw new Exception('No project selected - no path can be returned');
         }
-        return( DATA_PATH . $this->_pid . '/' );
+        return( DATA_PATH . $this->active->pid . '/' );
     }
 
     /**
@@ -213,7 +212,6 @@ class Project extends DbModel
         if( isset( $this->_session->active ) )
         {
             $this->active = $this->_session->active;
-            $this->_pid = $this->active->pid;
         }
     }
 }

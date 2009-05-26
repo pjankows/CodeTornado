@@ -15,9 +15,11 @@ abstract class MainController extends Zend_Controller_Action
     {
         $this->_user = new User;
         $this->_project = new Project;
-        if( $this->_user->loggedIn )
+        if( $this->_user->loggedIn != false )
         {
-            $this->_project->setUserData( $this->_user->loggedIn->uid, $this->_user->getPath() );
+            $loggedIn = $this->_user->loggedIn;
+            $this->_project->setUserData( $loggedIn->uid, $this->_user->getPath(),
+                                          $loggedIn->name, $loggedIn->email );
         }
         //$this->_project->setUserModel($this->_user);
         $this->view->loggedIn = $this->_user->loggedIn;

@@ -7,6 +7,8 @@ class Git
     const add = ' add ';
     const commit = ' commit -m ';
     const init = ' init';
+    const config_name = ' config user.name ';
+    const config_email = ' config user.email ';
 
     private $_git;
     private $_worktree;
@@ -52,9 +54,11 @@ class Git
         return($result);
     }
 
-    public function init()
+    public function initRepo($name, $email)
     {
         $result = $this->_run( self::init );
+        $this->_run( self::config_name . escapeshellarg($name) );
+        $this->_run( self::config_email . escapeshellarg($email) );
         return($result);
     }
 }

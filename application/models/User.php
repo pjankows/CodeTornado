@@ -11,6 +11,12 @@ class User extends DbModel
 
     private $_auth;
 
+    /**
+     * ->uid
+     * ->user
+     * ->name
+     * ->email
+    */
     public $loggedIn = false;
 
     /**
