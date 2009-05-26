@@ -24,8 +24,7 @@ div.title{
     color: #000000;
 }
 
-
-#newfile{
+#newfile, #newdir{
     position:absolute;
     top: 150px;
     left: 150px;
@@ -35,18 +34,19 @@ div.title{
     z-index: 100;
 }
 
-#newfile #name-label, #newfile #name-element{
+#newfile #name-label, #newfile #name-element, #newdir #name-label, #newdir #name-element{
     margin: 10px;
 }
 
 #newfile #new-label, #newfile #cancel-label, #newfile #cancel-element, #newfile #new-element,
-#newfile #new, #newfile #cancel{
+#newfile #new, #newfile #cancel, #newdir #new-label, #newdir #cancel-label, #newdir #cancel-element,
+#newdir #new-element, #newdir #new, #newdir #cancel{
     margin: 0px;
     width: 60px;
     display: inline;
 }
 
-#newfile #name-element #name{
+#newfile #name-element #name, #newdir #name-element #name{
     width: 120px;
 }
 

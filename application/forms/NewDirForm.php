@@ -19,7 +19,7 @@ class NewDirForm extends Zend_Form
 
         $cancel = new Zend_Form_Element_Button('cancel');
         $cancel->setLabel('Cancel');
-        $cancel->setAttrib('onclick', 'hideNewFile()');
+        $cancel->setAttrib('onclick', 'hideNewDir()');
 
         $submit = new Zend_Form_Element_Submit('new');
         $submit->setLabel('New');
