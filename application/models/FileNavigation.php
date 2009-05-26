@@ -76,24 +76,25 @@ class FileNavigation
 
     public function newFile($formData)
     {
-        if( is_array($formData) && isset($formData['type']) && isset($formData['name']) )
+        if( is_array($formData) && isset($formData['name']) )
         {
-            if( $formData['type'] == NewFileForm::typeFile )
-            {
-                touch( $this->getPath() . $formData['name'] );
-            }
-            else if( $formData['type'] == NewFileForm::typeDir )
-            {
-                mkdir( $this->getPath() . $formData['name'] );
-            }
-            else
-            {
-                throw new Exception('Invalid type specified');
-            }
+            touch( $this->getPath() . $formData['name'] );
         }
         else
         {
             throw new Exception('New file form data in incorrect format');
+        }
+    }
+
+    public function newDir($formData)
+    {
+        if( is_array($formData) && isset($formData['name']) )
+        {
+            mkdir( $this->getPath() . $formData['name'] );
+        }
+        else
+        {
+            throw new Exception('New directory form data in incorrect format');
         }
     }
 

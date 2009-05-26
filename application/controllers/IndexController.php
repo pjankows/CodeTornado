@@ -3,17 +3,13 @@ require_once MODEL_PATH . 'RawIO.php';
 require_once MODEL_PATH . 'Git.php';
 require_once MODEL_PATH . 'FileNavigation.php';
 require_once FORM_PATH . 'NewFileForm.php';
+require_once FORM_PATH . 'NewDirForm.php';
 class IndexController extends MainController
 {
     public function indexAction()
     {
         $request = $this->getRequest();
-        //$testfile = APPLICATION_PATH . '/../data/test.php';
-
         $io = new RawIO();
-        //$fileNavigation = new FileNavigation($this->_project, $this->_user);
-        //$this->view->files = $fileNavigation->ls();
-
         //handle file navagation
         $validFile = false;
         if( $this->_user->loggedIn != false && $this->_project->active != false )
@@ -37,9 +33,7 @@ class IndexController extends MainController
                 {
                     if( $fileNavigation->validFile( $request->getQuery('file') ) )
                     {
-                        $file = $fileNavigation->getPath() . '/' . $request->getQuery('file');
-                        $io->setFile($file);
-
+                        $io->setFile( $fileNavigation->getPath(), $request->getQuery('file') );
                     }
                 }
             }
@@ -48,6 +42,7 @@ class IndexController extends MainController
             $this->view->path = '/' . $fileNavigation->getDir();
             $this->view->files = $fileNavigation->ls();
             $this->view->newFileForm = new NewFileForm();
+            $this->view->newDirForm = new NewDirForm();
         }
 
         //save changes and do a commit

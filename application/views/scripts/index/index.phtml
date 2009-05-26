@@ -1,3 +1,13 @@
+<div id="newfile" class="hidden">
+<?php echo $this->newFileForm ?>
+</div>
+<div id="newdir" class="hidden">
+<?php echo $this->newDirForm ?>
+</div>
+
+<div class="title">
+<?php echo $this->escape( $this->editing ); ?>
+</div>
 <form id="editorForm" method="post" action="/">
 <div id="codeBorder">
 <textarea name="code" id="code" rows="25" cols="80"><?php echo $this->escape($this->content); ?></textarea>

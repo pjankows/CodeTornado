@@ -8,6 +8,16 @@ function showNewFile() {
     return( false );
 }
 
+function hideNewDir() {
+    dojo.addClass("newdir", "hidden");
+    return( false );
+}
+
+function showNewDir() {
+    dojo.removeClass("newdir", "hidden");
+    return( false );
+}
+
 function newFileFormSubmit(e) {
     e.preventDefault();
     dojo.xhrPost({
@@ -15,7 +25,26 @@ function newFileFormSubmit(e) {
         form: "newFileForm",
         handleAs: "text",
         load: function(data){
+            dojo.byId("navigation").innerHTML = data;
             console.log(data);
+            hideNewFile();
+        },
+        error:function(data,args){
+            console.warn(data);
+        }
+    });
+};
+
+function newDirFormSubmit(e) {
+    e.preventDefault();
+    dojo.xhrPost({
+        url: "/ajax/newdir/",
+        form: "newFileForm",
+        handleAs: "text",
+        load: function(data){
+            dojo.byId("navigation").innerHTML = data;
+            console.log(data);
+            hideNewDir();
         },
         error:function(data,args){
             console.warn(data);
@@ -24,8 +53,10 @@ function newFileFormSubmit(e) {
 };
 
 function init() {
+    dojo.require("dijit.dijit");
+    var viewport = dijit.getViewport();
     var editor = new CodeMirror.fromTextArea('code', {
-    height: "500px",
+    height: (viewport.h - 80) + "px",
     lineNumbers: true,
     textWrapping: false,
     tabMode: "shift",
@@ -48,6 +79,8 @@ function init() {
         ]
     });
 
-    var $form = dojo.byId("newFileForm");
-    dojo.connect($form, "onsubmit", "newFileFormSubmit");
+    var $fileForm = dojo.byId("newFileForm");
+    dojo.connect($fileForm, "onsubmit", "newFileFormSubmit");
+    var $form = dojo.byId("newDirForm");
+    dojo.connect($form, "onsubmit", "newDirFormSubmit");
 }

@@ -50,12 +50,23 @@ div.title{
     width: 120px;
 }
 
-#navigation{
+#left{
     float: left;
     width: 20%;
-    overflow: auto;
     margin: 0;
-    border-top: 1px solid #d9d8d1;
+}
+
+#menu{
+    height: 100px;
+}
+
+#navigation{
+    overflow: auto;
+}
+
+#content{
+    float: left;
+    width: 60%;
 }
 
 #navigation .list{
@@ -64,20 +75,15 @@ div.title{
 }
 
 #navigation .file{
-    list-style-image: url('/images/text-x-generic.png');
+    list-style-image: url('/images/i-file.png');
 }
 
 #navigation .dir{
-    list-style-image: url('/images/folder.png');
+    list-style-image: url('/images/i-dir.png');
 }
 
 #navigation .updir{
-    list-style-image: url('/images/go-up.png');
-}
-
-#content{
-    float: left;
-    width: 60%;
+    list-style-image: url('/images/i-up.png');
 }
 
 #codeBorder{
@@ -98,4 +104,8 @@ div.title{
 
 .hidden{
     display: none;
+}
+
+#menu img {
+    border: 0;
 }

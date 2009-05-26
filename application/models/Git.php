@@ -5,7 +5,7 @@ class Git
     const gitdir = ' --git-dir=';
     const worktree = ' --work-tree=';
     const add = ' add ';
-    const commit = ' commit -m ';
+    const commit = ' commit -a -m ';
     const init = ' init';
     const config_name = ' config user.name ';
     const config_email = ' config user.email ';
@@ -28,9 +28,8 @@ class Git
         $command = $this->_git . $param;
 
         $result = shell_exec( $command );
-        //$result = shell_exec( 'git' );
-        //return($result);
-        return( $command . "<br />" . $result );
+        //return( $command . "<br />" . $result );
+        return($result);
     }
 
     public function addAll()

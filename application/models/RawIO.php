@@ -1,37 +1,41 @@
 <?php
 class RawIO
 {
-    private $_file = null;
+    private $_pathname = null;
+    private $_name = null;
     private $_session;
 
     function __construct()
     {
         $this->_session = new Zend_Session_Namespace('RawIO');
-        if( isset( $this->_session->filename ) )
+        if( isset( $this->_session->pathname ) )
         {
-            $this->_file = $this->_session->filename;
+            $this->_pathname = $this->_session->pathname;
+            $this->_name = $this->_session->name;
         }
     }
 
     public function getFile()
     {
-        return( $this->_file );
+        return( $this->_name );
     }
 
-    public function setFile($filename)
+    public function setFile($path, $name)
     {
-        $this->_file = $filename;
-        $this->_session->filename = $filename;
+        $this->_pathname = $path . $name;
+        $this->_name = $name;
+        $this->_session->pathname = $this->_pathname;
+        $this->_session->name = $this->_name;
     }
 
     public function getContent()
     {
-        if( $this->_file != null  )
+        if( $this->_pathname != null  )
         {
-            $content = file_get_contents($this->_file);
+            $content = file_get_contents($this->_pathname);
             if( $content === false )
             {
-                throw new Exception('Error reading file: '. $this->_file);
+                throw new Exception('Error reading file: '. $this->_pathname);
             }
         }
         else
@@ -43,12 +47,12 @@ class RawIO
 
     public function saveContent( $content )
     {
-        if( $this->_file != null )
+        if( $this->_pathname != null )
         {
-            $result = file_put_contents($this->_file, $content);
+            $result = file_put_contents($this->_pathname, $content);
             if( $result === false )
             {
-                throw new Exception('Error writing file: ' . $this->_file);
+                throw new Exception('Error writing file: ' . $this->_pathname);
             }
         }
         else

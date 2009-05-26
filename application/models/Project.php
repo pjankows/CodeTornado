@@ -62,6 +62,7 @@ class Project extends DbModel
             {
                 throw new Exception('Unable to create the project directory:' . $this->getPath() );
             }
+            //init the user repo while joining the project
             $this->joinProject($id);
         }
         return( $key );
@@ -92,8 +93,10 @@ class Project extends DbModel
             {
                 throw new Exception('Unable to create a user directory in the project folder');
             }
+            //===== GIT INIT =====
             $git = new Git( $this->getPath() . $this->_userPath );
             $git->initRepo( $this->_userName, $this->_userEmail );
+            //===== GIT INIT =====
         }
     }
 
