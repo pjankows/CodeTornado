@@ -17,6 +17,12 @@ define( 'FORM_PATH', APPLICATION_PATH . '/forms/' );
 define( 'CONTROLLER_PATH', APPLICATION_PATH . '/controllers' );
 define( 'LAYOUT_PATH', APPLICATION_PATH . '/views/layouts');
 
+if( APPLICATION_ENVIRONMENT == 'development' )
+{
+    $writer = new Zend_Log_Writer_Firebug();
+    $logger = new Zend_Log($writer);
+}
+
 $dbAdapter = Zend_Db::factory($configuration->database);
 //Zend_Db_Table_Abstract::setDefaultAdapter($dbAdapter);
 
