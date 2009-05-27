@@ -67,6 +67,21 @@ function saveFile(e) {
     });
 }
 
+// function getFile(e) {
+//     e.preventDefault();
+//     dojo.xhrGet({
+//         url: "/ajax/getfile/",
+//         form: "",
+//         handleAs "text",
+//         load: function(data){
+//             console.log(data);
+//         },
+//         error:function(data,args){
+//             console.warn(data);
+//         }
+//     });
+// }
+
 function init() {
     dojo.require("dijit.dijit");
     var viewport = dijit.getViewport();

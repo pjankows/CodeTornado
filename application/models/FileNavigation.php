@@ -1,5 +1,6 @@
 <?php
 require_once FORM_PATH . 'NewFileForm.php';
+require_once MODEL_PATH . 'Git.php';
 class FileNavigation
 {
     private $_session;
