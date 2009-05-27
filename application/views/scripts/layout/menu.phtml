@@ -1,8 +1,8 @@
 <?php if($this->loggedIn) { ?>
-<span>Logged in as: <?php echo $this->loggedIn->name; ?></span><br />
+<span>User: <?php echo $this->loggedIn->name; ?></span><br />
 <?php } ?>
 <?php if($this->active) { ?>
-<span>Selected project: <?php echo $this->active->name; ?></span><br />
+<span>Project: <?php echo $this->active->name; ?></span><br />
 <?php } ?>
 
 <?php if( $this->loggedIn == false ) { ?>

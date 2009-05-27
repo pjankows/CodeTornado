@@ -50,13 +50,28 @@ function newDirFormSubmit(e) {
             console.warn(data);
         }
     });
-};
+}
+
+function saveFile(e) {
+    e.preventDefault();
+    dojo.xhrPost({
+        url: "/ajax/save/",
+        form: "editorForm",
+        handleAs: "text",
+        load: function(data){
+            console.log(data);
+        },
+        error:function(data,args){
+            console.warn(data);
+        }
+    });
+}
 
 function init() {
     dojo.require("dijit.dijit");
     var viewport = dijit.getViewport();
-    var editor = new CodeMirror.fromTextArea('code', {
-    height: (viewport.h - 80) + "px",
+    editor = new CodeMirror.fromTextArea('code', {
+    height: (viewport.h - 110) + "px",
     lineNumbers: true,
     textWrapping: false,
     tabMode: "shift",
@@ -81,6 +96,7 @@ function init() {
 
     var $fileForm = dojo.byId("newFileForm");
     dojo.connect($fileForm, "onsubmit", "newFileFormSubmit");
-    var $form = dojo.byId("newDirForm");
-    dojo.connect($form, "onsubmit", "newDirFormSubmit");
+    var $dirForm = dojo.byId("newDirForm");
+    dojo.connect($dirForm, "onsubmit", "newDirFormSubmit");
+
 }

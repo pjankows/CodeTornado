@@ -50,16 +50,10 @@ class AjaxController extends MainController
         $this->view->files = $fileNavigation->ls();
     }
 
-    public function enterdirAction()
-    {
-        $this->_helper->layout->disableLayout();
-        if( $request->getQuery('dir') != null )
-        {
-            $fileNavigation->enterDir( $request->getQuery('dir') );
-        }
-    }
-
-    private function newFileDir( $form, $newMethod )
+    /**
+     * Universal method used by file / directory creation
+    */
+    private function _newFileDir( $form, $newMethod )
     {
         $this->_check();
         $fileNavigation = new FileNavigation( $this->_project->getPath(), $this->_user->getPath() );
@@ -76,13 +70,59 @@ class AjaxController extends MainController
         $this->view->files = $fileNavigation->ls();
     }
 
+    /**
+     * Create a new file
+    */
     public function newfileAction()
     {
-        $this->newFileDir( new NewFileForm(), 'newfile' );
+        $this->_newFileDir( new NewFileForm(), 'newfile' );
     }
 
+    /**
+     * Create a new directory
+    */
     public function newdirAction()
     {
-        $this->newFileDir( new NewDirForm(), 'newdir' );
+        $this->_newFileDir( new NewDirForm(), 'newdir' );
+    }
+
+    /**
+     * TODO: test
+    */
+    public function enterdirAction()
+    {
+        if( $request->getQuery('dir') != null )
+        {
+            $fileNavigation->enterDir( $request->getQuery('dir') );
+        }
+    }
+
+    /**
+     * TODO: test
+    */
+    public function getfileAction()
+    {
+
+        if( $request->getQuery('file') != null )
+        {
+            if( $fileNavigation->validFile( $request->getQuery('file') ) )
+            {
+                $io->setFile( $fileNavigation->getPath(), $request->getQuery('file') );
+            }
+        }
+    }
+
+    /**
+     * TODO: test
+    */
+    public function saveAction()
+    {
+        $request = $this->getRequest();
+        $io = new RawIO();
+        if( $request->isPost() )
+        {
+            $post = $request->getPost();
+            $io->saveContent($code);
+        }
     }
 }

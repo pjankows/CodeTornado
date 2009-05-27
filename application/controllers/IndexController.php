@@ -45,16 +45,17 @@ class IndexController extends MainController
             $this->view->newDirForm = new NewDirForm();
         }
 
-        //save changes and do a commit
-        //if( isset( $_POST['commitMessage'] ) && isset($_POST['code']) )
         if( isset($_POST['code']) )
         {
-            //$msg = $_POST['commitMessage'];
             $code = $_POST['code'];
             $io->saveContent($code);
-            //$git = new Git();
-            //$result = $git->autoCommit($msg);
-            //$this->view->result = $result;
+            if( isset( $_POST['commitMessage'] ) )
+            {
+                $msg = $_POST['commitMessage'];
+                $git = new Git( $this->_project->getPath() . $this->_user->getPath() );
+                $result = $git->autoCommit($msg);
+                $this->view->result = $result;
+            }
         }
         $this->view->content = $io->getContent();
     }

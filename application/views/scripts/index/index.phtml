@@ -12,8 +12,11 @@
 <div id="codeBorder">
 <textarea name="code" id="code" rows="25" cols="80"><?php echo $this->escape($this->content); ?></textarea>
 </div>
-<p><input type="text" name="commitMessage" class="inputtext" />
-<input type="submit" name="Commit" value="Commit" /></p>
+<p>
+<input type="submit" name="save" value="Save" />
+<input type="submit" name="commit" value="Commit" />
+<input type="text" name="commitMessage" class="inputtext" />
+</p>
 </form>
 <?php echo $this->result; ?>
 <script type="text/javascript">
