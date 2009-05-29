@@ -6,7 +6,7 @@ class AjaxController extends MainController
 {
     /**
      * Temporary action while siple ajax in the prototype is based on innerHTML
-     * TODO: rewrite all actions to use JSON and remove this method
+     * TODO: rewrite all actions to use JSON helper and remove this method
     */
     public function postDispatch()
     {

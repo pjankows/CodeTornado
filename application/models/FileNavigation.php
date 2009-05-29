@@ -77,14 +77,18 @@ class FileNavigation
 
     public function newFile($formData)
     {
+        $result = false;
         if( is_array($formData) && isset($formData['name']) )
         {
             touch( $this->getPath() . $formData['name'] );
+            $git = new Git($this->_pathBase);
+            $result = $git->addFile( $this->getPath() . $formData['name'] );
         }
         else
         {
             throw new Exception('New file form data in incorrect format');
         }
+        return($result);
     }
 
     public function newDir($formData)

@@ -90,6 +90,10 @@ div.title{
     border: 1px solid #d9d8d1;
 }
 
+#commitMessage{
+    width: 60%;
+}
+
 #footer{
     clear: both;
 }
