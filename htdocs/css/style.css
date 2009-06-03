@@ -52,6 +52,7 @@ div.title{
 
 #left{
     float: left;
+    position: relative;
     width: 20%;
     margin: 0;
 }
@@ -66,6 +67,7 @@ div.title{
 
 #content{
     float: left;
+    position: relative;
     width: 60%;
 }
 

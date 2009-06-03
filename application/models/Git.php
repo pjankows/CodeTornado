@@ -9,6 +9,7 @@ class Git
     const init = ' init';
     const config_name = ' config user.name ';
     const config_email = ' config user.email ';
+    const branch = ' branch ';
 
     private $_git;
     private $_worktree;
@@ -58,6 +59,53 @@ class Git
         $result = $this->_run( self::init );
         $this->_run( self::config_name . escapeshellarg($name) );
         $this->_run( self::config_email . escapeshellarg($email) );
+        return($result);
+    }
+
+    private function _branches()
+    {
+        $result = $this->_run( self::branch );
+        //split by newlines
+        $result = explode("\n", $result);
+        //unset the empty element at the end of array
+        $max = count($result)-1;
+        unset( $result[ $max ] );
+        return( $result );
+    }
+
+    private function _branchStrip2($string)
+    {
+        $result;
+    }
+
+    public function getBranches()
+    {
+        $result = $this->_branches();
+        foreach( $result as $key => $value )
+        {
+            $result[$key] = substr($value, 2);
+        }
+        return($result);
+    }
+
+    public function getActiveBranch()
+    {
+        $result = null;
+        $branches = $this->_branches();
+        foreach( $result as $key => $value )
+        {
+            $first = $value[0];
+            if( $first === '*' )
+            {
+
+            }
+        }
+        return( $result );
+    }
+
+    public function setBranch($branch)
+    {
+        $result = $this->_run( self::branch . escapeshellarg($branch) );
         return($result);
     }
 }
