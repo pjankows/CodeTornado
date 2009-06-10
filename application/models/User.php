@@ -17,7 +17,7 @@ class User extends DbModel
      * ->name
      * ->email
     */
-    public $loggedIn = false;
+    public $loggedIn = null;
 
     /**
      * @Override

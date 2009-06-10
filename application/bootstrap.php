@@ -12,13 +12,14 @@ Zend_Session::start();
 $configuration = new Zend_Config(require APPLICATION_PATH . '/config.php');
 
 define( 'DATA_PATH', $configuration->data->path );
+define( 'GIT_PATH', $configuration->git->path );
 define( 'MODEL_PATH', APPLICATION_PATH . '/models/' );
 define( 'FORM_PATH', APPLICATION_PATH . '/forms/' );
 define( 'CONTROLLER_PATH', APPLICATION_PATH . '/controllers' );
 define( 'LAYOUT_PATH', APPLICATION_PATH . '/views/layouts');
 
 $dbAdapter = Zend_Db::factory($configuration->database);
-//Zend_Db_Table_Abstract::setDefaultAdapter($dbAdapter);
+Zend_Db_Table_Abstract::setDefaultAdapter($dbAdapter);
 
 $registry = Zend_Registry::getInstance();
 $registry->config = $configuration;

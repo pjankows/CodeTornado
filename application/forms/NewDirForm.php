@@ -13,7 +13,7 @@ class NewDirForm extends Zend_Form
         $this->setAction('ajax/newdir/');
 
         $name = new Zend_Form_Element_Text('name');
-        $name->setLabel('Enter new file name');
+        $name->setLabel('Enter new directory name');
         $name->addValidator('StringLength', true, array(1, 128));
         $name->addValidator('Regex', true, array('pattern' => self::pattern) );
 

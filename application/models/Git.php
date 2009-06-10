@@ -1,4 +1,5 @@
 <?php
+require_once MODEL_PATH . 'SessionStorage.php';
 class Git
 {
     const gitdirname = '/.git';
@@ -92,12 +93,12 @@ class Git
     {
         $result = null;
         $branches = $this->_branches();
-        foreach( $result as $key => $value )
+        foreach( $result as $value )
         {
             $first = $value[0];
             if( $first === '*' )
             {
-
+                $result = substr($value, 2);
             }
         }
         return( $result );

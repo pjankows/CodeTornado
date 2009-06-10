@@ -12,7 +12,7 @@ class IndexController extends MainController
         $io = new RawIO();
         //handle file navagation
         $validFile = false;
-        if( $this->_user->loggedIn != false && $this->_project->active != false )
+        if( isset($this->_user->loggedIn) && $this->_project->active != false )
         {
             $fileNavigation = new FileNavigation( $this->_project->getPath(), $this->_user->getPath() );
             if( $request->isGet() )
