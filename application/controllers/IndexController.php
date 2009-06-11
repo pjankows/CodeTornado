@@ -9,17 +9,17 @@ class IndexController extends MainController
     const noUserCon = 'login';
     const noUserAct = 'user';
     const noProCon = 'project';
-    const noProAct = 'user';
+    const noProAct = 'select';
 
     public function preDispatch()
     {
         if( ! isset( $this->_user->loggedIn ) )
         {
-            $this->_forward(self::noUserAct, self:noUserCon);
+            $this->_forward(self::noUserAct, self::noUserCon);
         }
         if( ! isset( $this->_project->active ) )
         {
-            $this->_forward(self::noProAct, self:noProCon);
+            $this->_forward(self::noProAct, self::noProCon);
         }
     }
 

@@ -31,15 +31,20 @@ div.title{
     color: #000000;
 }
 
-#loginWindow{
+#userWindow{
     margin: 0 auto;
     padding: 0;
-    width: 300px;
-    border: 1px solid #000000;
+    width: 310px;
+    border: 1px solid #000;
 }
 
-#loginWindow dl, #loginWindow img{
+#userWindow dl{
     margin: 10px;
+}
+
+#userWindow img{
+    margin: 10px;
+    border: 1px solid #eee;
 }
 
 #newfile, #newdir{

@@ -3,9 +3,19 @@ require_once FORM_PATH . 'NewProjectForm.php';
 require_once FORM_PATH . 'JoinProjectForm.php';
 class ProjectController extends MainController
 {
+    const noUserCon = 'login';
+    const noUserAct = 'user';
     const MUST_LOGIN = 'Must be logged in to create a project';
     const NAME_TAKEN = 'Project with the given name already exists';
     const FORM_INVALID = 'Please correct the form';
+
+    public function preDispatch()
+    {
+        if( ! isset( $this->_user->loggedIn ) )
+        {
+            $this->_forward(self::noUserAct, self::noUserCon);
+        }
+    }
 
     public function newAction()
     {
