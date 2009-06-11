@@ -2,21 +2,24 @@
 require_once MODEL_PATH . 'DbModel.php';
 require_once MODEL_PATH . 'Project.php';
 require_once MODEL_PATH . 'User.php';
+require_once MODEL_PATH . 'SessionStorage.php';
 //require_once MODEL_PATH . 'FileNavigation.php';
 //require_once MODEL_PATH . 'BranchNavigation.php';
 abstract class MainController extends Zend_Controller_Action
 {
     protected $_project;
     protected $_user;
+    protected $_storage;
     protected $_git;
     //protected $_fileNav;
     //protected $_branchNav;
 
     public function init()
     {
-        $this->_user = new User;
-        $this->_project = new Project;
-        if( $this->_user->loggedIn != false )
+        $this->_storage = new SessionStorage();
+        $this->_user = new User();
+        $this->_project = new Project();
+        if( isset( $this->_user->loggedIn ) )
         {
             $loggedIn = $this->_user->loggedIn;
             $this->_project->setUserData( $loggedIn->uid, $this->_user->getPath(),

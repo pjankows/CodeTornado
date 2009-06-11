@@ -6,6 +6,23 @@ require_once FORM_PATH . 'NewFileForm.php';
 require_once FORM_PATH . 'NewDirForm.php';
 class IndexController extends MainController
 {
+    const noUserCon = 'login';
+    const noUserAct = 'user';
+    const noProCon = 'project';
+    const noProAct = 'user';
+
+    public function preDispatch()
+    {
+        if( ! isset( $this->_user->loggedIn ) )
+        {
+            $this->_forward(self::noUserAct, self:noUserCon);
+        }
+        if( ! isset( $this->_project->active ) )
+        {
+            $this->_forward(self::noProAct, self:noProCon);
+        }
+    }
+
     public function indexAction()
     {
         $request = $this->getRequest();

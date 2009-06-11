@@ -1,5 +1,9 @@
+<div id="loginWindow">
+<a href="/user/login/"><img src="/images/login.png" alt="Login" title="Login" /></a>
+<a href="/user/register/"><img src="/images/register.png" alt="Register" title="Register" /></a>
 <h1>Login</h1>
 <?php if( isset($this->loginMsg) ) { ?>
     <p class="loginMsg"><?php echo $this->escape( $this->loginMsg ) ?></p>
 <?php } ?>
 <?php echo $this->form; ?>
+</div>

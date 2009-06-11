@@ -1,3 +1,14 @@
+<div id="left">
+<div id="menu">
+<?php echo $this->render('/layout/menu.phtml'); ?>
+</div>
+
+<div id="navigation">
+<?php echo $this->render('/layout/navigation.phtml'); ?>
+</div>
+</div>
+
+<div id="center">
 
 <div id="newfile" class="hidden">
 <?php echo $this->newFileForm ?>
@@ -25,3 +36,9 @@
 dojo.addOnLoad(init);
 //]]>
 </script>
+
+</div>
+
+<div id="footer">
+<?php echo $this->render('/layout/footer.phtml'); ?>
+</div>

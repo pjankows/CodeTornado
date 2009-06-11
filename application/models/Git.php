@@ -1,10 +1,9 @@
 <?php
-require_once MODEL_PATH . 'SessionStorage.php';
 class Git
 {
-    const gitdirname = '/.git';
-    const gitdir = ' --git-dir=';
-    const worktree = ' --work-tree=';
+    //const gitdirname = '/.git';
+    //const gitdir = ' --git-dir=';
+    //const worktree = ' --work-tree=';
     const add = ' add ';
     const commit = ' commit -a -m ';
     const init = ' init';
