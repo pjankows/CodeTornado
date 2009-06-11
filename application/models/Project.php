@@ -10,7 +10,7 @@ class Project extends DbModel
     private $_userName = false;
     private $_userEmail = false;
 
-    public $active = null;
+    public $active = NULL;
 
     /**
      * Restore the active project id form the session

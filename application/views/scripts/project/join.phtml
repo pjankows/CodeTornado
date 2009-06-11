@@ -1,5 +1,8 @@
+<div id="projectWindow">
+<?php include 'menu.phtml' ?>
 <h1>Join Project</h1>
 <?php if( isset($this->joinMsg) ) { ?>
-    <p class="projectMsg"><?php echo $this->escape( $this->joinMsg ) ?></p>
+    <p class="proMsg"><?php echo $this->escape( $this->joinMsg ) ?></p>
 <?php } ?>
 <?php echo $this->form; ?>
+</div>

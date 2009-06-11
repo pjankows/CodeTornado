@@ -1,4 +1,5 @@
 <?php
+require_once MODEL_PATH . 'SessionStorage.php';
 class Git
 {
     //const gitdirname = '/.git';
@@ -14,11 +15,11 @@ class Git
     private $_git;
     private $_worktree;
 
-    function __construct($worktree)
+    function __construct()
     {
         $configuration = Zend_Registry::get('config');
         $this->_git = $configuration->git->command;
-        $this->_worktree = $worktree;
+        $this->_worktree = SessionStorage::getInstance()->getGitUserPath();
     }
 
     private function _run($param)
@@ -27,6 +28,10 @@ class Git
         //. self::worktree . $this->_worktree . $param;
         chdir( $this->_worktree );
         $command = $this->_git . $param;
+        if( APPLICATION_ENVIRONMENT == 'development' )
+        {
+            $command .= ' &2>1';
+        }
 
         $result = shell_exec( $command );
         //return( $command . "<br />" . $result );
@@ -90,7 +95,7 @@ class Git
 
     public function getActiveBranch()
     {
-        $result = null;
+        $result = NULL;
         $branches = $this->_branches();
         foreach( $result as $value )
         {

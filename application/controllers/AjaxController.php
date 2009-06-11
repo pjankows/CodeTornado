@@ -65,7 +65,7 @@ class AjaxController extends MainController
     */
     public function enterdirAction()
     {
-        if( $request->getQuery('dir') != null )
+        if( $request->getQuery('dir') != NULL )
         {
             $fileNavigation->enterDir( $request->getQuery('dir') );
         }
@@ -77,7 +77,7 @@ class AjaxController extends MainController
     public function getfileAction()
     {
 
-        if( $request->getQuery('file') != null )
+        if( $request->getQuery('file') != NULL )
         {
             if( $fileNavigation->validFile( $request->getQuery('file') ) )
             {

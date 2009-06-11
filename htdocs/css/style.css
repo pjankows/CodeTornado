@@ -19,7 +19,7 @@ h1{
     font-weight: bold;
     background-color: #000;
     text-decoration: none;
-    color: #00ff00;
+    color: #0f0;
 }
 
 div.title{
@@ -37,12 +37,24 @@ div.title{
     width: 310px;
     border: 1px solid #000;
 }
-
 #userWindow dl{
     margin: 10px;
 }
-
 #userWindow img{
+    margin: 10px;
+    border: 1px solid #eee;
+}
+
+#projectWindow{
+    margin: 0 auto;
+    padding: 0;
+    width: 510px;
+    border: 1px solid #000;
+}
+#projectWindow dl{
+    margin: 10px;
+}
+#projectWindow img{
     margin: 10px;
     border: 1px solid #eee;
 }
@@ -116,7 +128,7 @@ div.title{
     padding: 0;
     color: #999999;
 }
-.loginMsg{
+.loginMsg, .proMsg{
     background-color: #000;
     color: #aaa;
     padding: 1px 10px;

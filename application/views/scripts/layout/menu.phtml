@@ -4,17 +4,9 @@
 <?php if($this->active) { ?>
 <span>Project: <?php echo $this->active->name; ?></span><br />
 <?php } ?>
-
-<?php if( $this->loggedIn == false ) { ?>
-    <a href="/user/login/"><img src="/images/login.png" alt="Login" title="Login" /></a>
-    <a href="/user/register/"><img src="/images/register.png" alt="Register" title="Register" /></a>
-<?php } else { ?>
-    <a href="/user/logout/"><img src="/images/logout.png" alt="Logout" title="Logout" /></a>
-    <a href="/project/new/"><img src="/images/newpro.png" alt="New Project" title="New Project" /></a>
-    <a href="/project/join/"><img src="/images/join.png" alt="Join Project" title="Join Project"/></a>
-    <a href="/project/select/"><img src="/images/open.png" alt="Select Project" title="Select Project" /></a>
-<?php } ?>
-<?php if( $this->active == true ) { ?>
-    <a href="#" onclick="showNewFile();"><img src="/images/newfile.png" alt="New file" title="New file" /></a>
-    <a href="#" onclick="showNewDir();"><img src="/images/newdir.png" alt="New dir" title="New dir" /></a>
-<?php } ?>
+<a href="/user/logout/"><img src="/images/logout.png" alt="Logout" title="Logout" /></a>
+<a href="/project/new/"><img src="/images/newpro.png" alt="New Project" title="New Project" /></a>
+<a href="/project/join/"><img src="/images/join.png" alt="Join Project" title="Join Project"/></a>
+<a href="/project/open/"><img src="/images/open.png" alt="Open Project" title="Open Project" /></a>
+<a href="#" onclick="showNewFile();"><img src="/images/newfile.png" alt="New file" title="New file" /></a>
+<a href="#" onclick="showNewDir();"><img src="/images/newdir.png" alt="New dir" title="New dir" /></a>

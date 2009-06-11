@@ -6,10 +6,10 @@ require_once FORM_PATH . 'NewFileForm.php';
 require_once FORM_PATH . 'NewDirForm.php';
 class IndexController extends MainController
 {
-    const noUserCon = 'login';
-    const noUserAct = 'user';
+    const noUserCon = 'user';
+    const noUserAct = 'login';
     const noProCon = 'project';
-    const noProAct = 'select';
+    const noProAct = 'open';
 
     public function preDispatch()
     {
@@ -34,7 +34,7 @@ class IndexController extends MainController
             $fileNavigation = new FileNavigation( $this->_project->getPath(), $this->_user->getPath() );
             if( $request->isGet() )
             {
-                if( $request->getQuery('updir') != null )
+                if( $request->getQuery('updir') != NULL )
                 {
                     $updir = (int) $request->getQuery('updir');
                     for($i=0; $i<$updir; ++$i )
@@ -42,11 +42,11 @@ class IndexController extends MainController
                         $fileNavigation->upDir();
                     }
                 }
-                if( $request->getQuery('dir') != null )
+                if( $request->getQuery('dir') != NULL )
                 {
                     $fileNavigation->enterDir( $request->getQuery('dir') );
                 }
-                if( $request->getQuery('file') != null )
+                if( $request->getQuery('file') != NULL )
                 {
                     if( $fileNavigation->validFile( $request->getQuery('file') ) )
                     {

@@ -1,3 +1,10 @@
+<?php if($this->loggedIn) { ?>
+<span>User: <?php echo $this->loggedIn->name; ?></span><br />
+<?php } ?>
+<?php if($this->active) { ?>
+<span>Project: <?php echo $this->active->name; ?></span><br />
+<?php } ?>
+
 <pre>
-<?php echo $this->test ?>
+<?php print_r( $this->test ) ?>
 </pre>

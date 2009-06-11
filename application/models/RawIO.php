@@ -1,8 +1,8 @@
 <?php
 class RawIO
 {
-    private $_pathname = null;
-    private $_name = null;
+    private $_pathname = NULL;
+    private $_name = NULL;
     private $_session;
 
     function __construct()
@@ -30,7 +30,7 @@ class RawIO
 
     public function getContent()
     {
-        if( $this->_pathname != null  )
+        if( $this->_pathname != NULL  )
         {
             $content = file_get_contents($this->_pathname);
             if( $content === false )
@@ -47,7 +47,7 @@ class RawIO
 
     public function saveContent( $content )
     {
-        if( $this->_pathname != null )
+        if( $this->_pathname != NULL )
         {
             $result = file_put_contents($this->_pathname, $content);
             if( $result === false )

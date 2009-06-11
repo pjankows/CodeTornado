@@ -3,8 +3,8 @@ require_once FORM_PATH . 'NewProjectForm.php';
 require_once FORM_PATH . 'JoinProjectForm.php';
 class ProjectController extends MainController
 {
-    const noUserCon = 'login';
-    const noUserAct = 'user';
+    const noUserCon = 'user';
+    const noUserAct = 'login';
     const MUST_LOGIN = 'Must be logged in to create a project';
     const NAME_TAKEN = 'Project with the given name already exists';
     const FORM_INVALID = 'Please correct the form';
@@ -73,11 +73,11 @@ class ProjectController extends MainController
         $this->view->form = $form;
     }
 
-    public function selectAction()
+    public function openAction()
     {
         $this->view->projects = $this->_project->getJoinedProjects();
         $request = $this->getRequest();
-        if( $request->isGet() && $request->getQuery('pro') !== null )
+        if( $request->isGet() && $request->getQuery('pro') !== NULL )
         {
             $project = $request->getQuery('pro');
             $this->_project->selectProject($project);

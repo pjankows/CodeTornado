@@ -7,9 +7,17 @@ class TestController extends MainController
 {
     public function indexAction()
     {
-//         $git = new Git( $this->_project->getPath() . $this->_user->getPath() );
-//         $result = $git->getBranches();
-
+        $result = array();
+        //$this->_storage->clearAll();
+        $this->_storage->setProject(111);
+        $this->_storage->setUserPath('222/');
+        $this->_storage->setLocalPath('some/local/dir/');
+        $result['project'] = $this->_storage->getProject();
+        $result['projectPath'] = $this->_storage->getProjectPath();
+        $result['userPath'] = $this->_storage->getUserPath();
+        $result['gitPath'] = $this->_storage->getGitUserPath();
+        $result['localPath'] = $this->_storage->getWorkLocalPath();
+        //$this->_storage->setProject(111);
 
         $logger = Zend_Registry::get('logger');
         $logger->log($result, Zend_Log::INFO);

@@ -1,16 +1,25 @@
 <?php
 class SessionStorage
 {
-    private $_session;
+    static protected $_instance;
+    protected $_session;
 
-    private $_project = null;
-    private $_projectPath = null;
-    private $_userPath = null;
-    private $_branch = null;
-    private $_localPath = null;
-    private $_fileName = null;
+    private $_project;
+    private $_projectPath;
+    private $_userPath;
+    private $_branch;
+    private $_localPath;
+    private $_fileName;
 
-    function __construct()
+    static public function getInstance()
+    {
+        if( ! isset( self::$_instance ) ) {
+            self::$_instance = new self();
+        }
+        return( self::$_instance );
+    }
+
+    private function __construct()
     {
         $this->_session = new Zend_Session_Namespace('RTVCS');
         foreach( $this->_session as $key => $value )
@@ -19,13 +28,25 @@ class SessionStorage
         }
     }
 
+    private function __clone()
+    {}
+
+    public function clearAll()
+    {
+        $this->_project = NULL;
+        $this->_projectPath = NULL;
+        $this->_userPath = NULL;
+        $this->_branch = NULL;
+        $this->_localPath = NULL;
+        $this->_fileName = NULL;
+        $this->_session->setExpirationHops(1);
+    }
+
     public function storeAll()
     {
         $this->_store('_project');
         $this->_store('_projectPath');
         $this->_store('_userPath');
-        $this->_store('_workPath');
-        $this->_store('_gitPath');
         $this->_store('_branch');
         $this->_store('_localPath');
         $this->_store('_fileName');
@@ -45,12 +66,15 @@ class SessionStorage
     public function setProject($id)
     {
         $this->_project = $id;
-        $this->setProjectPath( $this->$id . PATH_SEPARATOR );
+        if( is_int($id) )
+        {
+            $this->setProjectPath( $this->_project . '/' );
+        }
     }
 
     public function getProject()
     {
-        return( $this->_project );
+        return( isset( $this->_project ) ? $this->_project : NULL );
     }
 
     public function setProjectPath($path)
@@ -60,7 +84,7 @@ class SessionStorage
 
     public function getProjectPath()
     {
-        return( $this->_projectPath );
+        return( isset( $this->_projectPath ) ? $this->_projectPath : NULL );
     }
 
     public function setUserPath($path)
@@ -70,7 +94,7 @@ class SessionStorage
 
     public function getUserPath()
     {
-        return( $this->_userPath );
+        return( isset( $this->_userPath ) ? $this->_userPath : NULL );
     }
 
     public function setBranch($branchName)
@@ -80,7 +104,7 @@ class SessionStorage
 
     public function getBranch()
     {
-        return( $this->_branch );
+        return( isset( $this->_branch ) ? $this->_branch : NULL );
     }
 
     public function setLocalPath($path)
@@ -90,7 +114,17 @@ class SessionStorage
 
     public function getLocalPath()
     {
-        return( $this->_localPath );
+        return( isset( $this->_localPath ) ? $this->_localPath : NULL );
+    }
+
+    public function setFileName($name)
+    {
+        $this->_fileName = $name;
+    }
+
+    public function getFileName()
+    {
+        return( isset( $this->_fileName ) ? $this->_fileName : NULL );
     }
     /*
      * End getter and setter methods
@@ -101,7 +135,15 @@ class SessionStorage
     */
     public function getWorkLocalPath()
     {
-        return( DATA_PATH . $this->_projectPath . $this->_userPath . $this->_localPath );
+        if( isset($this->_projectPath) && isset($this->_userPath) && isset($this->_localPath)  )
+        {
+            $base = Zend_Registry::getInstance()->config->data->path;
+            return( $base . $this->_projectPath . $this->_userPath . $this->_localPath );
+        }
+        else
+        {
+            return( NULL );
+        }
     }
 
     /**
@@ -109,6 +151,14 @@ class SessionStorage
     */
     public function getGitUserPath()
     {
-        return( GIT_PATH . $this->_projectPath . $this->_userPath );
+        if( isset($this->_projectPath) && isset($this->_userPath) )
+        {
+            $base = Zend_Registry::getInstance()->config->git->path;
+            return( $base . $this->_projectPath . $this->_userPath );
+        }
+        else
+        {
+            return( NULL );
+        }
     }
 }

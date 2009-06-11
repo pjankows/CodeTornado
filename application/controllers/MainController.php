@@ -16,17 +16,28 @@ abstract class MainController extends Zend_Controller_Action
 
     public function init()
     {
-        $this->_storage = new SessionStorage();
+        $this->_storage = SessionStorage::getInstance();
         $this->_user = new User();
         $this->_project = new Project();
         if( isset( $this->_user->loggedIn ) )
         {
             $loggedIn = $this->_user->loggedIn;
+            //project model also uses this data for project selection
             $this->_project->setUserData( $loggedIn->uid, $this->_user->getPath(),
                                           $loggedIn->name, $loggedIn->email );
+            if( isset( $this->_procject->active ) )
+            {
+                $this->_storage->setProject( $this->_project->active );
+            }
+
         }
         $this->view->loggedIn = $this->_user->loggedIn;
         $this->view->active = $this->_project->active;
         //$this->_branchNav = new BranchNavigation($this->_project, $this->_user);
+    }
+
+    public function postDispatch()
+    {
+        $this->_storage->storeAll();
     }
 }
