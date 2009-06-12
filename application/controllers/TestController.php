@@ -9,9 +9,9 @@ class TestController extends MainController
     {
         $result = array();
         //$this->_storage->clearAll();
-        $this->_storage->setProject(111);
-        $this->_storage->setUserPath('222/');
-        $this->_storage->setLocalPath('some/local/dir/');
+        $this->_storage->setProject(1);
+        $this->_storage->setUserPath('1/');
+        $this->_storage->setLocalPath('/');
         $result['project'] = $this->_storage->getProject();
         $result['projectPath'] = $this->_storage->getProjectPath();
         $result['userPath'] = $this->_storage->getUserPath();

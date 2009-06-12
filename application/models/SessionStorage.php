@@ -161,4 +161,20 @@ class SessionStorage
             return( NULL );
         }
     }
+
+    /**
+     * Retrieve the path to use as the file navigation base
+    */
+    public function getWorkUserPath()
+    {
+        if( isset($this->_projectPath) && isset($this->_userPath) )
+        {
+            $base = Zend_Registry::getInstance()->config->data->path;
+            return( $base . $this->_projectPath . $this->_userPath );
+        }
+        else
+        {
+            return( NULL );
+        }
+    }
 }

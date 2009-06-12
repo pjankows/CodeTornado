@@ -1,6 +1,7 @@
 <?php
 require_once FORM_PATH . 'NewFileForm.php';
 require_once MODEL_PATH . 'Git.php';
+require_once MODEL_PATH . 'SessionStorage.php';
 class FileNavigation
 {
     private $_session;
@@ -15,9 +16,9 @@ class FileNavigation
     /**
      * Constructor recreates current directory array
     */
-    function __construct($projectPath, $userPath)
+    function __construct()
     {
-        $this->_pathBase = $projectPath . $userPath;
+        $this->_pathBase = SessionStorage::getInstance()->getWorkUserPath();
         $this->_session = new Zend_Session_Namespace('FileNav');
         if( isset( $this->_session->dirArray ) )
         {

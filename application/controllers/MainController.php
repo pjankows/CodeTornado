@@ -10,7 +10,6 @@ abstract class MainController extends Zend_Controller_Action
     protected $_project;
     protected $_user;
     protected $_storage;
-    protected $_git;
     //protected $_fileNav;
     //protected $_branchNav;
 

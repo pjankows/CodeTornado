@@ -29,38 +29,35 @@ class IndexController extends MainController
         $io = new RawIO();
         //handle file navagation
         $validFile = false;
-        if( isset($this->_user->loggedIn) && $this->_project->active != false )
+        $fileNavigation = new FileNavigation( $this->_project->getPath(), $this->_user->getPath() );
+        if( $request->isGet() )
         {
-            $fileNavigation = new FileNavigation( $this->_project->getPath(), $this->_user->getPath() );
-            if( $request->isGet() )
+            if( $request->getQuery('updir') != NULL )
             {
-                if( $request->getQuery('updir') != NULL )
+                $updir = (int) $request->getQuery('updir');
+                for($i=0; $i<$updir; ++$i )
                 {
-                    $updir = (int) $request->getQuery('updir');
-                    for($i=0; $i<$updir; ++$i )
-                    {
-                        $fileNavigation->upDir();
-                    }
-                }
-                if( $request->getQuery('dir') != NULL )
-                {
-                    $fileNavigation->enterDir( $request->getQuery('dir') );
-                }
-                if( $request->getQuery('file') != NULL )
-                {
-                    if( $fileNavigation->validFile( $request->getQuery('file') ) )
-                    {
-                        $io->setFile( $fileNavigation->getPath(), $request->getQuery('file') );
-                    }
+                    $fileNavigation->upDir();
                 }
             }
-
-            $this->view->editing = $io->getFile();
-            $this->view->path = '/' . $fileNavigation->getDir();
-            $this->view->files = $fileNavigation->ls();
-            $this->view->newFileForm = new NewFileForm();
-            $this->view->newDirForm = new NewDirForm();
+            if( $request->getQuery('dir') != NULL )
+            {
+                $fileNavigation->enterDir( $request->getQuery('dir') );
+            }
+            if( $request->getQuery('file') != NULL )
+            {
+                if( $fileNavigation->validFile( $request->getQuery('file') ) )
+                {
+                    $io->setFile( $fileNavigation->getPath(), $request->getQuery('file') );
+                }
+            }
         }
+
+        $this->view->editing = $io->getFile();
+        $this->view->path = '/' . $fileNavigation->getDir();
+        $this->view->files = $fileNavigation->ls();
+        $this->view->newFileForm = new NewFileForm();
+        $this->view->newDirForm = new NewDirForm();
 
         if( isset($_POST['code']) )
         {
