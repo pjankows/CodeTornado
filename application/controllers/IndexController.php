@@ -2,8 +2,10 @@
 require_once MODEL_PATH . 'RawIO.php';
 require_once MODEL_PATH . 'Git.php';
 require_once MODEL_PATH . 'FileNavigation.php';
+require_once MODEL_PATH . 'BranchNavigation.php';
 require_once FORM_PATH . 'NewFileForm.php';
 require_once FORM_PATH . 'NewDirForm.php';
+require_once FORM_PATH . 'NewBranchForm.php';
 class IndexController extends MainController
 {
     const noUserCon = 'user';
@@ -32,6 +34,8 @@ class IndexController extends MainController
         //handle file navagation
         $validFile = false;
         $fileNavigation = new FileNavigation();
+        $branchNavigation = new BranchNavigation();
+        $git = new Git();
         if( $request->isGet() )
         {
             if( $request->getQuery('updir') != NULL )
@@ -50,13 +54,21 @@ class IndexController extends MainController
                     $io->setFile( $fileNavigation->getPath(), $request->getQuery('file') );
                 }
             }
+            if( $request->getQuery('branch') != NULL )
+            {
+                $branchNavigation->setBranch( $request->getQuery('branch') );
+            }
         }
 
         $this->view->editing = $io->getFile();
         $this->view->path = '/' . $fileNavigation->getDir();
         $this->view->files = $fileNavigation->ls();
+        $this->view->branch = $branchNavigation->getActiveBranch();
+        $this->view->branches = $branchNavigation->getBranches();
+
         $this->view->newFileForm = new NewFileForm();
         $this->view->newDirForm = new NewDirForm();
+        $this->view->newBranchForm = new NewBranchForm();
 
         if( isset($_POST['code']) )
         {
@@ -65,7 +77,6 @@ class IndexController extends MainController
             if( isset( $_POST['commitMessage'] ) )
             {
                 $msg = $_POST['commitMessage'];
-                $git = new Git( $this->_project->getPath() . $this->_user->getPath() );
                 $result = $git->autoCommit($msg);
                 $this->view->result = $result;
             }

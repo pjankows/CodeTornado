@@ -11,15 +11,18 @@ class Git
     const config_name = ' config user.name ';
     const config_email = ' config user.email ';
     const branch = ' branch ';
+    const rm = ' rm ';
 
     private $_git;
     private $_worktree;
+    private $_logger;
 
     function __construct()
     {
         $configuration = Zend_Registry::get('config');
         $this->_git = $configuration->git->command;
         $this->_worktree = SessionStorage::getInstance()->getGitPath();
+        $this->_logger = Zend_Registry::get('logger');
     }
 
     private function _run($param)
@@ -27,14 +30,17 @@ class Git
         //$command = $this->_git . self::gitdir . $this->_gitdir
         //. self::worktree . $this->_worktree . $param;
         chdir( $this->_worktree );
+        $this->_logger->log($this->_worktree, Zend_Log::INFO);
         $command = $this->_git . $param;
         if( APPLICATION_ENVIRONMENT == 'development' )
         {
-            $command .= ' &2>1';
+            //$command .= ' 2>&1';
         }
 
         $result = shell_exec( $command );
         //return( $command . "<br />" . $result );
+        $this->_logger->log($command, Zend_Log::INFO);
+        $this->_logger->log($result, Zend_Log::INFO);
         return($result);
     }
 
@@ -46,6 +52,11 @@ class Git
     public function addFile($filename)
     {
         $result = $this->_run( self::add . escapeshellarg($filename) );
+    }
+
+    public function rmFile($filename)
+    {
+        $result = $this->_run( self::rm . escapeshellarg($filename) );
     }
 
     public function autoCommit($commitMessage)
@@ -67,7 +78,7 @@ class Git
         return($result);
     }
 
-    private function _branches()
+    public function getBranches()
     {
         $result = $this->_run( self::branch );
         //split by newlines
@@ -75,36 +86,6 @@ class Git
         //unset the empty element at the end of array
         $max = count($result)-1;
         unset( $result[ $max ] );
-        return( $result );
-    }
-
-    private function _branchStrip2($string)
-    {
-        $result;
-    }
-
-    public function getBranches()
-    {
-        $result = $this->_branches();
-        foreach( $result as $key => $value )
-        {
-            $result[$key] = substr($value, 2);
-        }
-        return($result);
-    }
-
-    public function getActiveBranch()
-    {
-        $result = NULL;
-        $branches = $this->_branches();
-        foreach( $result as $value )
-        {
-            $first = $value[0];
-            if( $first === '*' )
-            {
-                $result = substr($value, 2);
-            }
-        }
         return( $result );
     }
 

@@ -5,12 +5,14 @@ class Project extends DbModel
 {
     const NO_USER = 'No user logged in';
 
-    private $_uid = false;
-    private $_userPath = false;
-    private $_userName = false;
-    private $_userEmail = false;
+    private $_uid;
+    private $_userPath;
+    private $_userName;
+    private $_userEmail;
 
     public $active = NULL;
+
+    private $_logger;
 
     /**
      * Restore the active project id form the session
@@ -18,13 +20,12 @@ class Project extends DbModel
     protected function init()
     {
         //read the session variable if exists
-        //$this->_session = new Zend_Session_Namespace('Project');
-        //$this->_storage = SessionStorage::getInstance();
+        $this->_logger = Zend_Registry::get('logger');
         $this->_restore();
     }
 
     /**
-     * Set user data from model. Called by MainController init method.
+     * Set user data from model. Called by ProjectController init method.
     */
     public function setUserData($uid, $userPath, $userName, $userEmail)
     {
@@ -40,7 +41,7 @@ class Project extends DbModel
     public function newProject($name)
     {
         $key = false;
-        if( $this->_uid == false )
+        if( !isset($this->_uid) )
         {
             throw new Exception(NO_USER);
         }
@@ -50,11 +51,12 @@ class Project extends DbModel
         if( $result == 1 )
         {
             //get the id of the inserted row - the project id (pid)
-            $id = $this->_db->lastInsertId();
+            $pid = $this->_db->lastInsertId();
             //set the project id in object for internal usage and session storage later
-            $data['pid'] = $id;
+            $data['pid'] = $pid;
             $this->_store($data);
 
+            $this->_logger->log( $this->getPath(), Zend_Log::WARN);
             if( file_exists( $this->getPath() ) )
             {
                 throw new Exception('Project folder already exists');
@@ -64,7 +66,7 @@ class Project extends DbModel
                 throw new Exception('Unable to create the project directory:' . $this->getPath() );
             }
             //init the user repo while joining the project
-            $this->joinProject($id);
+            $this->joinProject($pid);
         }
         return( $key );
     }
@@ -95,7 +97,7 @@ class Project extends DbModel
                 throw new Exception('Unable to create a user directory in the project folder');
             }
             //===== GIT INIT =====
-            $git = new Git( $this->getPath() . $this->_userPath );
+            $git = new Git();
             $git->initRepo( $this->_userName, $this->_userEmail );
             //===== GIT INIT =====
         }
@@ -106,7 +108,7 @@ class Project extends DbModel
     */
     public function selectProject($pid)
     {
-        if( $this->_uid == false )
+        if( ! isset($this->_uid) )
         {
             throw new Exception(NO_USER);
         }
@@ -128,8 +130,7 @@ class Project extends DbModel
     */
     public function deselectProject()
     {
-        unset( $this->_session->active );
-        $this->active = false;
+        $this->active = NULL;
     }
 
     /**
@@ -199,7 +200,6 @@ class Project extends DbModel
     {
         if( is_array($data) && isset($data['pid']) && isset($data['owner']) && isset($data['name']) )
         {
-            //$this->_session->active = (object) $data;
             $this->_storage->project->fromArray($data);
             $this->_restore();
             $this->_storage->path->fromPid($this->active->pid);

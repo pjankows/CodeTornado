@@ -18,6 +18,16 @@ function showNewDir() {
     return( false );
 }
 
+function hideNewBranch() {
+    dojo.addClass("newbranch", "hidden");
+    return( false );
+}
+
+function showNewBranch() {
+    dojo.removeClass("newbranch", "hidden");
+    return( false );
+}
+
 function newFileFormSubmit(e) {
     e.preventDefault();
     dojo.xhrPost({
@@ -45,6 +55,23 @@ function newDirFormSubmit(e) {
             dojo.byId("navigation").innerHTML = data;
             console.log(data);
             hideNewDir();
+        },
+        error:function(data,args){
+            console.warn(data);
+        }
+    });
+}
+
+function newBranchFormSubmit(e) {
+    e.preventDefault();
+    dojo.xhrPost({
+        url: "/ajax/newbranch/",
+        form: "newBranchForm",
+        handleAs: "text",
+        load: function(data){
+            dojo.byId("navigation").innerHTML = data;
+            console.log(data);
+            hideNewBranch();
         },
         error:function(data,args){
             console.warn(data);
@@ -113,5 +140,7 @@ function init() {
     dojo.connect($fileForm, "onsubmit", "newFileFormSubmit");
     var $dirForm = dojo.byId("newDirForm");
     dojo.connect($dirForm, "onsubmit", "newDirFormSubmit");
+    var $branchForm = dojo.byId("newBranchForm");
+    dojo.connect($branchForm, "onsubmit", "newBranchFormSubmit");
 
 }

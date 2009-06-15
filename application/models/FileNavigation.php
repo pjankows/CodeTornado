@@ -93,6 +93,21 @@ class FileNavigation
         return($result);
     }
 
+    public function deleteFile($formData)
+    {
+        $result = false;
+        if( is_array($formData) && isset($formData['name']) )
+        {
+            $git = new Git();
+            $result = $git->rmFile( $this->getPath() . $formData['name'] );
+        }
+        else
+        {
+            throw new Exception('New file form data in incorrect format');
+        }
+        return($result);
+    }
+
     public function newDir($formData)
     {
         if( is_array($formData) && isset($formData['name']) )
@@ -168,4 +183,6 @@ class FileNavigation
         $this->_dirs = $result['dirs'];
         return( $result );
     }
+
+
 }

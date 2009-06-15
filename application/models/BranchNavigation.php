@@ -1,8 +1,47 @@
 <?php
 require_once MODEL_PATH . 'Git.php';
-require_once
 class BranchNavigation
 {
+    private $_git;
+    private $_branches;
 
+    function __construct()
+    {
+        $this->_git = new Git();
+        $this->_branches = $this->_git->getBranches();
+    }
 
+    public function getBranches()
+    {
+        $result = $this->_branches;
+        foreach( $result as $key => $value )
+        {
+            $result[$key] = substr($value, 2);
+        }
+        return($result);
+    }
+
+    public function getActiveBranch()
+    {
+        $result = NULL;
+        $branches = $this->_branches;
+        if( count($branches) > 0 )
+        {
+            foreach( $branches as $value )
+            {
+                $first = $value[0];
+                if( $first === '*' )
+                {
+                    $result = substr($value, 2);
+                }
+            }
+        }
+        return( $result );
+    }
+
+    public function setBranch($branch)
+    {
+        $this->_git->autoCommit('AutoCommit: Changing branch to '.$branch);
+        $this->_git->setBranch($branch);
+    }
 }

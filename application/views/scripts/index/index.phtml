@@ -7,10 +7,13 @@
 <span>Project: <?php echo $this->active->name; ?></span><br />
 <?php } ?>
 <a href="/user/logout/"><img src="/images/logout.png" alt="Logout" title="Logout" /></a>
-<a href="/project/new/"><img src="/images/newpro.png" alt="New Project" title="New Project" /></a>
+<a href="/project/open/"><img src="/images/open.png" alt="Open Project" title="Open Project" /></a>
 <a href="#" onclick="showNewFile();"><img src="/images/newfile.png" alt="New file" title="New file" /></a>
 <a href="#" onclick="showNewDir();"><img src="/images/newdir.png" alt="New dir" title="New dir" /></a>
+<a href="#" onclick="showNewBranch();"><img src="/images/newbranch.png" alt="New branch" title="New branch" /></a>
 </div>
+
+
 
 <div id="navigation">
 <?php include 'navigation.phtml' ?>
@@ -24,6 +27,9 @@
 </div>
 <div id="newdir" class="hidden">
 <?php echo $this->newDirForm ?>
+</div>
+<div id="newbranch" class="hidden">
+<?php echo $this->newBranchForm ?>
 </div>
 
 <div class="title">

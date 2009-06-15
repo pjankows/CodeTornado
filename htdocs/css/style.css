@@ -8,7 +8,6 @@ body {
 
 #content{
     margin: 10px;
-    padding: 10px;
     border: 1px solid #d9d8d1;
 }
 
@@ -24,7 +23,7 @@ h1{
 
 div.title{
     display: block;
-    padding: 6px 8px;
+    padding: 2px 8px;
     font-weight: bold;
     background-color: #edece6;
     text-decoration: none;
@@ -59,11 +58,12 @@ div.title{
     border: 1px solid #eee;
 }
 
-#newfile, #newdir{
+#newfile, #newdir, #newbranch{
     position:absolute;
+    padding: 10px;
     top: 15px;
     left: 15px;
-    width: 200px;
+    width: 150px;
     background-color: #ffffff;
     border: 1px solid #000000;
     z-index: 100;
@@ -74,7 +74,12 @@ div.title{
     width: 60px;
     display: inline;
 }
-#newfile #name-element #name, #newdir #name-element #name{
+
+#newfile #name-element, #newdir #name-element, #newbranch #name-element {
+    margin: 0px;
+    padding: 10px;
+}
+#newfile #name-element #name, #newdir #name-element #name, #newbranch #name-element #name{
     width: 120px;
 }
 
@@ -87,6 +92,11 @@ div.title{
 
 #menu{
     height: 100px;
+}
+
+#menu img{
+    height: 24px;
+    width: 24px;
 }
 
 #navigation{
@@ -102,6 +112,9 @@ div.title{
 #navigation .list{
     left:0;
     margin-left:0;
+}
+#navigation .branch{
+    list-style-image: url('/images/i-branch.png');
 }
 #navigation .file{
     list-style-image: url('/images/i-file.png');
