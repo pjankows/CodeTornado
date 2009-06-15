@@ -9,6 +9,16 @@ class ProjectController extends MainController
     const NAME_TAKEN = 'Project with the given name already exists';
     const FORM_INVALID = 'Please correct the form';
 
+    public function init()
+    {
+        parent::init();
+        $loggedIn = $this->_user->loggedIn;
+        $this->_project = new Project();
+        $this->_project->setUserData( $loggedIn->uid, $this->_user->getPath(),
+                                      $loggedIn->name, $loggedIn->email );
+
+    }
+
     public function preDispatch()
     {
         if( ! isset( $this->_user->loggedIn ) )

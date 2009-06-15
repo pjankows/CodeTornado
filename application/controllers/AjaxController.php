@@ -18,7 +18,7 @@ class AjaxController extends MainController
     */
     private function _check()
     {
-        if( $this->_user->loggedIn == false || $this->_project->active == false )
+        if( ! ( isset($this->_user->loggedIn) && isset($this->_storage->project->pid) ) )
         {
             throw new Exception('AJAX: User or project not active in session');
         }
@@ -30,7 +30,7 @@ class AjaxController extends MainController
     private function _newFileDir( $form, $newMethod )
     {
         $this->_check();
-        $fileNavigation = new FileNavigation( $this->_project->getPath(), $this->_user->getPath() );
+        $fileNavigation = new FileNavigation();
         $request = $this->getRequest();
         if( $request->isPost() )
         {

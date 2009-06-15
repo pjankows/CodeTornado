@@ -4,7 +4,7 @@ require_once MODEL_PATH . 'Git.php';
 require_once MODEL_PATH . 'SessionStorage.php';
 class FileNavigation
 {
-    private $_session;
+    private $_storage;
     private $_pathBase;
     private $_path;
     private $_dir;
@@ -12,18 +12,18 @@ class FileNavigation
     private $_files;
     private $_dirs;
     private $_file;
+    private $_logger;
 
     /**
      * Constructor recreates current directory array
     */
     function __construct()
     {
-        $this->_pathBase = SessionStorage::getInstance()->getWorkUserPath();
-        $this->_session = new Zend_Session_Namespace('FileNav');
-        if( isset( $this->_session->dirArray ) )
-        {
-            $this->_dirArray = $this->_session->dirArray;
-        }
+        $this->_logger = Zend_Registry::get('logger');
+        $this->_storage = SessionStorage::getInstance();
+        $this->_pathBase = $this->_storage->getDataPath();
+        $this->_logger->log($this->_pathBase, Zend_Log::INFO);
+        $this->_dirArray = $this->_storage->getDirArray();
         $this->_updatePath();
     }
 
@@ -32,7 +32,7 @@ class FileNavigation
     */
     private function _updatePath()
     {
-        $this->_session->dirArray = $this->_dirArray;
+        $this->_storage->path->dirArray = isset($this->_dirArray) ? $this->_dirArray : array();
         $this->_path = $this->_pathBase;
         $this->_dir = '';
         foreach( $this->_dirArray as $dir )
@@ -40,6 +40,7 @@ class FileNavigation
             $this->_path .= $dir . '/';
             $this->_dir .= $dir . '/';
         }
+        //$this->_storage->setLocalPath($this->_dir);
     }
 
     /**
@@ -82,7 +83,7 @@ class FileNavigation
         if( is_array($formData) && isset($formData['name']) )
         {
             touch( $this->getPath() . $formData['name'] );
-            $git = new Git($this->_pathBase);
+            $git = new Git();
             $result = $git->addFile( $this->getPath() . $formData['name'] );
         }
         else
@@ -110,13 +111,16 @@ class FileNavigation
     /**
      * Go up dir equals cd ..
     */
-    public function upDir()
+    public function upDir($count)
     {
-        if( count($this->_dirArray) > 0 )
+        for($i=0; $i<$count; ++$i )
         {
-            array_pop( $this->_dirArray );
-            $this->_updatePath();
+            if( count($this->_dirArray) > 0 )
+            {
+                array_pop( $this->_dirArray );
+            }
         }
+        $this->_updatePath();
     }
 
     /**

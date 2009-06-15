@@ -19,7 +19,7 @@ class Git
     {
         $configuration = Zend_Registry::get('config');
         $this->_git = $configuration->git->command;
-        $this->_worktree = SessionStorage::getInstance()->getGitUserPath();
+        $this->_worktree = SessionStorage::getInstance()->getGitPath();
     }
 
     private function _run($param)

@@ -7,8 +7,6 @@ defined('APPLICATION_ENVIRONMENT')
 require_once 'Zend/Loader/Autoloader.php';
 $autoloader = Zend_Loader_Autoloader::getInstance();
 
-Zend_Session::start();
-
 $configuration = new Zend_Config(require APPLICATION_PATH . '/config.php');
 
 define( 'DATA_PATH', $configuration->data->path );
@@ -18,20 +16,28 @@ define( 'FORM_PATH', APPLICATION_PATH . '/forms/' );
 define( 'CONTROLLER_PATH', APPLICATION_PATH . '/controllers' );
 define( 'LAYOUT_PATH', APPLICATION_PATH . '/views/layouts');
 
+require_once MODEL_PATH . 'ProjectStorage.php';
+require_once MODEL_PATH . 'PathStorage.php';
+Zend_Session::start();
+
 $dbAdapter = Zend_Db::factory($configuration->database);
 Zend_Db_Table_Abstract::setDefaultAdapter($dbAdapter);
+
+if( APPLICATION_ENVIRONMENT == 'development' )
+{
+    $writer = new Zend_Log_Writer_Firebug();
+}
+else
+{
+    $writer = new Zend_Log_Writer_Null;
+}
+$logger = new Zend_Log($writer);
 
 $registry = Zend_Registry::getInstance();
 $registry->config = $configuration;
 $registry->salt = $configuration->salt;
 $registry->dbAdapter = $dbAdapter;
-
-if( APPLICATION_ENVIRONMENT == 'development' )
-{
-    $writer = new Zend_Log_Writer_Firebug();
-    $logger = new Zend_Log($writer);
-    $registry->logger = $logger;
-}
+$registry->logger = $logger;
 
 $frontController = Zend_Controller_Front::getInstance();
 $frontController->setControllerDirectory( CONTROLLER_PATH );

@@ -1,15 +1,26 @@
 <?php
+/**
+ * The class that uses all other storage classes and stores these objects in a session
+*/
 class SessionStorage
 {
     static protected $_instance;
-    protected $_session;
+    private $_session;
+    private $_logger;
 
-    private $_project;
-    private $_projectPath;
-    private $_userPath;
-    private $_branch;
-    private $_localPath;
-    private $_fileName;
+    /*
+     * ->pid
+     * ->owner
+     * ->name
+    */
+    public $project;
+    /*
+     * ->project
+     * ->user
+     * ->dirArray
+     * ->fileName
+    */
+    public $path;
 
     static public function getInstance()
     {
@@ -19,162 +30,87 @@ class SessionStorage
         return( self::$_instance );
     }
 
+    /**
+     * Private
+    */
     private function __construct()
     {
+        $this->_logger = Zend_Registry::get('logger');
         $this->_session = new Zend_Session_Namespace('RTVCS');
         foreach( $this->_session as $key => $value )
         {
             $this->$key = $value;
         }
+        if( ! isset( $this->project ) )
+        {
+            $this->project = new ProjectStorage();
+        }
+        if( ! isset( $this->path ) )
+        {
+            $this->path = new PathStorage();
+        }
     }
 
+    /**
+     * __clone is restricted to private as part of the sigleton pattern
+    */
     private function __clone()
     {}
 
     public function clearAll()
     {
-        $this->_project = NULL;
-        $this->_projectPath = NULL;
-        $this->_userPath = NULL;
-        $this->_branch = NULL;
-        $this->_localPath = NULL;
-        $this->_fileName = NULL;
+        $this->project = NULL;
+        $this->path = NULL;
         $this->_session->setExpirationHops(1);
     }
 
     public function storeAll()
     {
-        $this->_store('_project');
-        $this->_store('_projectPath');
-        $this->_store('_userPath');
-        $this->_store('_branch');
-        $this->_store('_localPath');
-        $this->_store('_fileName');
-    }
-
-    private function _store($valueName)
-    {
-        if( isset( $this->$valueName ) )
+        if( isset( $this->project ) && isset( $this->path ) )
         {
-            $this->_session->$valueName = $this->$valueName;
-        }
-    }
-
-    /*
-     * Start getter and setter methods
-    */
-    public function setProject($id)
-    {
-        $this->_project = $id;
-        if( is_int($id) )
-        {
-            $this->setProjectPath( $this->_project . '/' );
-        }
-    }
-
-    public function getProject()
-    {
-        return( isset( $this->_project ) ? $this->_project : NULL );
-    }
-
-    public function setProjectPath($path)
-    {
-        $this->_projectPath = $path;
-    }
-
-    public function getProjectPath()
-    {
-        return( isset( $this->_projectPath ) ? $this->_projectPath : NULL );
-    }
-
-    public function setUserPath($path)
-    {
-        $this->_userPath = $path;
-    }
-
-    public function getUserPath()
-    {
-        return( isset( $this->_userPath ) ? $this->_userPath : NULL );
-    }
-
-    public function setBranch($branchName)
-    {
-        $this->_branch = $branchName;
-    }
-
-    public function getBranch()
-    {
-        return( isset( $this->_branch ) ? $this->_branch : NULL );
-    }
-
-    public function setLocalPath($path)
-    {
-        $this->_localPath = $path;
-    }
-
-    public function getLocalPath()
-    {
-        return( isset( $this->_localPath ) ? $this->_localPath : NULL );
-    }
-
-    public function setFileName($name)
-    {
-        $this->_fileName = $name;
-    }
-
-    public function getFileName()
-    {
-        return( isset( $this->_fileName ) ? $this->_fileName : NULL );
-    }
-    /*
-     * End getter and setter methods
-    */
-
-    /**
-     * Retrieve full work path to currently edited file or active directory
-    */
-    public function getWorkLocalPath()
-    {
-        if( isset($this->_projectPath) && isset($this->_userPath) && isset($this->_localPath)  )
-        {
-            $base = Zend_Registry::getInstance()->config->data->path;
-            return( $base . $this->_projectPath . $this->_userPath . $this->_localPath );
+            $this->_session->project = $this->project;
+            $this->_session->path = $this->path;
         }
         else
         {
-            return( NULL );
+            $this->_session->setExpirationHops(1);
         }
     }
 
-    /**
-     * Retrieve the path to a git repo
-    */
-    public function getGitUserPath()
+    public function getDirArray()
     {
-        if( isset($this->_projectPath) && isset($this->_userPath) )
+        return( isset($this->path->dirArray) ? $this->path->dirArray : array() );
+    }
+
+    /**
+     * Retrieve the path to a git repo: /configGitPath/project/user/
+    */
+    public function getGitPath()
+    {
+        if( isset($this->path->project) && isset($this->path->user) )
         {
             $base = Zend_Registry::getInstance()->config->git->path;
-            return( $base . $this->_projectPath . $this->_userPath );
+            return( $base . $this->path->project . $this->path->user );
         }
         else
         {
-            return( NULL );
+            throw new Exception('Error getting git path');
         }
     }
 
     /**
-     * Retrieve the path to use as the file navigation base
+     * Retrieve the path to use as the file navigation base: /configDataPath/project/user/
     */
-    public function getWorkUserPath()
+    public function getDataPath()
     {
-        if( isset($this->_projectPath) && isset($this->_userPath) )
+        if( isset($this->path->project) && isset($this->path->user) )
         {
             $base = Zend_Registry::getInstance()->config->data->path;
-            return( $base . $this->_projectPath . $this->_userPath );
+            return( $base . $this->path->project . $this->path->user );
         }
         else
         {
-            return( NULL );
+            throw new Exception('Error getting data path');
         }
     }
 }

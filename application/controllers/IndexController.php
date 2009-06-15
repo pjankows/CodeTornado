@@ -15,10 +15,12 @@ class IndexController extends MainController
     {
         if( ! isset( $this->_user->loggedIn ) )
         {
+            $this->_logger->log('Forwarding to user', Zend_Log::INFO);
             $this->_forward(self::noUserAct, self::noUserCon);
         }
-        if( ! isset( $this->_project->active ) )
+        else if( ! isset( $this->_storage->project->pid ) )
         {
+            $this->_logger->log('Forwarding to project', Zend_Log::INFO);
             $this->_forward(self::noProAct, self::noProCon);
         }
     }
@@ -29,16 +31,13 @@ class IndexController extends MainController
         $io = new RawIO();
         //handle file navagation
         $validFile = false;
-        $fileNavigation = new FileNavigation( $this->_project->getPath(), $this->_user->getPath() );
+        $fileNavigation = new FileNavigation();
         if( $request->isGet() )
         {
             if( $request->getQuery('updir') != NULL )
             {
-                $updir = (int) $request->getQuery('updir');
-                for($i=0; $i<$updir; ++$i )
-                {
-                    $fileNavigation->upDir();
-                }
+                $updirs = (int) $request->getQuery('updir');
+                $fileNavigation->upDir($updirs);
             }
             if( $request->getQuery('dir') != NULL )
             {

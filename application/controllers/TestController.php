@@ -8,19 +8,19 @@ class TestController extends MainController
     public function indexAction()
     {
         $result = array();
-        //$this->_storage->clearAll();
-        $this->_storage->setProject(1);
-        $this->_storage->setUserPath('1/');
-        $this->_storage->setLocalPath('/');
-        $result['project'] = $this->_storage->getProject();
-        $result['projectPath'] = $this->_storage->getProjectPath();
-        $result['userPath'] = $this->_storage->getUserPath();
-        $result['gitPath'] = $this->_storage->getGitUserPath();
-        $result['localPath'] = $this->_storage->getWorkLocalPath();
-        //$this->_storage->setProject(111);
-
-        $logger = Zend_Registry::get('logger');
-        $logger->log($result, Zend_Log::INFO);
+//         $this->_storage->clearAll();
+//         $this->_storage->setProject(1);
+//         $this->_storage->setUserPath('1/');
+//         $this->_storage->setLocalPath('/');
+//         $result['project'] = $this->_storage->getProject();
+//         $result['projectPath'] = $this->_storage->getProjectPath();
+//         $result['userPath'] = $this->_storage->getUserPath();
+//         $result['gitPath'] = $this->_storage->getGitUserPath();
+//         $result['localPath'] = $this->_storage->getWorkLocalPath();
+//         $this->_storage->setProject(111);
+        //$this->_storage->path->fromUid(23);
+        $this->_logger = Zend_Registry::get('logger');
+        $this->_logger->log($this->_storage, Zend_Log::INFO);
         $this->view->test = $result;
     }
 }

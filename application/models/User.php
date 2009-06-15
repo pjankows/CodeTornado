@@ -1,4 +1,5 @@
 <?php
+//require_once MODEL_PATH . 'PathStorage.php';
 require_once MODEL_PATH . 'Brute.php';
 /**
  * Manage the user login, registration and session persistence.
@@ -9,6 +10,9 @@ class User extends DbModel
     const BAD = 1;
     const BLOCK = 2;
 
+    /**
+     * Authentication adapter
+    */
     private $_auth;
 
     /**
@@ -31,10 +35,14 @@ class User extends DbModel
         }
     }
 
+    /**
+     * Logout the user destroying all session data
+    */
     public function logout()
     {
         $this->_auth->clearIdentity();
         $this->_auth->getStorage()->clear();
+        $this->_storage->clearAll();
         Zend_Session::expireSessionCookie();
     }
 
@@ -63,6 +71,8 @@ class User extends DbModel
                 {
                     $storage = $this->_auth->getStorage();
                     $storage->write( $adapter->getResultRowObject( array('uid', 'user', 'name', 'email') ) );
+                    $this->_storage->path->fromUid( $this->_auth->getIdentity()->uid );
+                    $this->_storage->storeAll();
                     $result = self::OK;
                 }
                 else
@@ -129,7 +139,7 @@ class User extends DbModel
     public function getPath()
     {
         $result = false;
-        if( $this->loggedIn )
+        if( isset($this->loggedIn) )
         {
             $result = $this->loggedIn->uid . '/';
         }

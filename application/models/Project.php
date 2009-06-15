@@ -1,10 +1,10 @@
 <?php
 require_once MODEL_PATH . 'Git.php';
+require_once MODEL_PATH . 'SessionStorage.php';
 class Project extends DbModel
 {
     const NO_USER = 'No user logged in';
 
-    private $_session;
     private $_uid = false;
     private $_userPath = false;
     private $_userName = false;
@@ -18,7 +18,8 @@ class Project extends DbModel
     protected function init()
     {
         //read the session variable if exists
-        $this->_session = new Zend_Session_Namespace('Project');
+        //$this->_session = new Zend_Session_Namespace('Project');
+        //$this->_storage = SessionStorage::getInstance();
         $this->_restore();
     }
 
@@ -198,8 +199,10 @@ class Project extends DbModel
     {
         if( is_array($data) && isset($data['pid']) && isset($data['owner']) && isset($data['name']) )
         {
-            $this->_session->active = (object) $data;
+            //$this->_session->active = (object) $data;
+            $this->_storage->project->fromArray($data);
             $this->_restore();
+            $this->_storage->path->fromPid($this->active->pid);
         }
         else
         {
@@ -212,9 +215,10 @@ class Project extends DbModel
     */
     private function _restore()
     {
-        if( isset( $this->_session->active ) )
-        {
-            $this->active = $this->_session->active;
-        }
+        $active = array();
+        $active['pid'] = $this->_storage->project->pid;
+        $active['owner'] = $this->_storage->project->owner;
+        $active['name'] = $this->_storage->project->name;
+        $this->active = (object) $active;
     }
 }

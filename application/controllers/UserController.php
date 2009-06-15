@@ -46,7 +46,7 @@ class UserController extends MainController
 
     public function logoutAction()
     {
-        $this->_project->deselectProject();
+        $this->_storage->clearAll();
         $this->_user->logout();
         $this->view->loginMsg = self::LOGOUT;
         $this->_forward('login');
