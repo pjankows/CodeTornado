@@ -11,6 +11,7 @@ class Git
     const config_name = ' config user.name ';
     const config_email = ' config user.email ';
     const branch = ' branch ';
+    const checkout = ' checkout ';
     const rm = ' rm ';
 
     private $_git;
@@ -90,6 +91,12 @@ class Git
     }
 
     public function setBranch($branch)
+    {
+        $result = $this->_run( self::checkout . escapeshellarg($branch) );
+        return($result);
+    }
+
+    public function newBranch($branch)
     {
         $result = $this->_run( self::branch . escapeshellarg($branch) );
         return($result);

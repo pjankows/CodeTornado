@@ -1,7 +1,9 @@
 <?php
 require_once MODEL_PATH . 'FileNavigation.php';
+require_once MODEL_PATH . 'BranchNavigation.php';
 require_once FORM_PATH . 'NewFileForm.php';
 require_once FORM_PATH . 'NewDirForm.php';
+require_once FORM_PATH . 'NewBranchForm.php';
 class AjaxController extends MainController
 {
     /**
@@ -30,6 +32,7 @@ class AjaxController extends MainController
     private function _newFileDir( $form, $newMethod )
     {
         $this->_check();
+        $branchNavigation = new BranchNavigation();
         $fileNavigation = new FileNavigation();
         $request = $this->getRequest();
         if( $request->isPost() )
@@ -42,6 +45,32 @@ class AjaxController extends MainController
         }
         $this->view->path = '/' . $fileNavigation->getDir();
         $this->view->files = $fileNavigation->ls();
+        $this->view->branch = $branchNavigation->getActiveBranch();
+        $this->view->branches = $branchNavigation->getBranches();
+    }
+
+    /**
+     * Create a new branch from the current HEAD
+    */
+    public function newbranchAction()
+    {
+        $this->_check();
+        $form = new NewBranchForm();
+        $branchNavigation = new BranchNavigation();
+        $fileNavigation = new FileNavigation();
+        $request = $this->getRequest();
+        if( $request->isPost() )
+        {
+            $post = $request->getPost();
+            if( $form->isValid($post) )
+            {
+                $branchNavigation->newBranch($post);
+            }
+        }
+        $this->view->path = '/' . $fileNavigation->getDir();
+        $this->view->files = $fileNavigation->ls();
+        $this->view->branch = $branchNavigation->getActiveBranch();
+        $this->view->branches = $branchNavigation->getBranches();
     }
 
     /**

@@ -44,4 +44,16 @@ class BranchNavigation
         $this->_git->autoCommit('AutoCommit: Changing branch to '.$branch);
         $this->_git->setBranch($branch);
     }
+
+    public function newBranch($formData)
+    {
+        if( is_array($formData) && isset($formData['name']) )
+        {
+            $this->_git->newBranch($formData['name']);
+        }
+        else
+        {
+            throw new Exception('Branch name in incorrect format');
+        }
+    }
 }
