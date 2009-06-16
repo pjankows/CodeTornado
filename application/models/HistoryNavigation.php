@@ -30,4 +30,9 @@ class HistoryNavigation
     {
         return( strstr($this->_git->getRevName(self::head), ' ') );
     }
+
+    public function setRev($id)
+    {
+        $this->_git->checkout($id);
+    }
 }

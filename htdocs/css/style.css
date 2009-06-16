@@ -62,7 +62,7 @@ div.title p{
 #newfile, #newdir, #newbranch{
     position:absolute;
     padding: 10px;
-    top: 15px;
+    top: 35px;
     left: 15px;
     width: 190px;
     background-color: #ffffff;

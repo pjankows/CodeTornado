@@ -60,6 +60,10 @@ class IndexController extends MainController
             {
                 $branchNavigation->setBranch( $request->getQuery('branch') );
             }
+            if( $request->getQuery('rev') != NULL )
+            {
+                $historyNavigation->setRev( $request->getQuery('branch') );
+            }
         }
 
         $this->view->editing = $io->getFile();

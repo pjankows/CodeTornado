@@ -81,6 +81,7 @@ class Git
 
     public function initRepo($name, $email)
     {
+        chdir( $this->_worktree );
         $result = $this->_run( self::init );
         $this->_run( self::config_name, $name );
         $this->_run( self::config_email, $email );
