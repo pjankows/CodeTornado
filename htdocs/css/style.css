@@ -78,7 +78,7 @@ div.title p{
     width: 60px;
 }
 
-#name-element, #name_dir-element, #name_branch-element {
+#name_file-element, #name_dir-element, #name_branch-element {
     margin: 0px;
     padding: 10px;
 }

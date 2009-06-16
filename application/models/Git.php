@@ -5,6 +5,7 @@ class Git
     //const gitdirname = '/.git';
     //const gitdir = ' --git-dir=';
     //const worktree = ' --work-tree=';
+    const fatal = 'fatal';
     const add = 'add';
     const commit = 'commit -a -m';
     const init = 'init';
@@ -136,9 +137,16 @@ class Git
     public function getRevs()
     {
         $result = $this->_run( self::rev_list );
-        $result = explode("\n", $result);
-        $max = count($result)-1;
-        unset( $result[ $max ] );
+        if( strpos($result, self::fatal ) === FALSE )
+        {
+            $result = explode("\n", $result);
+            $max = count($result)-1;
+            unset( $result[ $max ] );
+        }
+        else
+        {
+            $result = array();
+        }
         return( $result );
     }
 

@@ -80,11 +80,11 @@ class FileNavigation
     public function newFile($formData)
     {
         $result = false;
-        if( is_array($formData) && isset($formData['name']) )
+        if( is_array($formData) && isset($formData['name_file']) )
         {
-            touch( $this->getPath() . $formData['name'] );
+            touch( $this->getPath() . $formData['name_file'] );
             $git = new Git();
-            $result = $git->addFile( $this->getPath() . $formData['name'] );
+            $result = $git->addFile( $this->getPath() . $formData['name_file'] );
         }
         else
         {

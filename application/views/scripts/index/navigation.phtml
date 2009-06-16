@@ -38,7 +38,8 @@ if( count($this->branches) > 0 )
 <p>Head: <?php echo $this->escape($this->headName) ?></p>
 </div>
 <ul class="list">
-<?php if( count($this->history) > 0 )
+<?php
+if( count($this->history) > 0 )
 {
     foreach( $this->history as $sha => $rev )
     {

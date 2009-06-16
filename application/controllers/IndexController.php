@@ -60,9 +60,9 @@ class IndexController extends MainController
             {
                 $branchNavigation->setBranch( $request->getQuery('branch') );
             }
-            if( $request->getQuery('rev') != NULL )
+            if( $request->getQuery('sha') != NULL )
             {
-                $historyNavigation->setRev( $request->getQuery('branch') );
+                $historyNavigation->setRev( $request->getQuery('sha') );
             }
         }
 

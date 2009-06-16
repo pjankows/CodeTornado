@@ -13,6 +13,7 @@ class HistoryNavigation
 
     public function getHistory()
     {
+        $result = array();
         $revs = $this->_git->getRevs();
         $named = array();
         if( count($revs) > 0 )
@@ -22,8 +23,9 @@ class HistoryNavigation
                 $name = $this->_git->getRevName($value);
                 $named[] = str_replace("\n", '', strstr($name, ' ') );
             }
+            $result = array_combine($revs, $named);
         }
-        return( array_combine($revs, $named) );
+        return( $result );
     }
 
     public function getHeadName()
