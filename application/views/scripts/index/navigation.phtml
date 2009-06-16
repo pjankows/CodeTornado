@@ -6,7 +6,7 @@
 if( count($this->branches) > 0 )
     foreach( $this->branches as $branch )
     {
-        echo '<li class="branch"><a href=?branch="'.urlencode( $branch ).'">'.$this->escape($branch)."</a></li>\n";
+        echo '<li class="branch"><a href="?branch='.urlencode( $branch ).'">'.$this->escape($branch)."</a></li>\n";
     }
 ?>
 </ul>

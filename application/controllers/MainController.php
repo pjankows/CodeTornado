@@ -28,7 +28,7 @@ abstract class MainController extends Zend_Controller_Action
     public function postDispatch()
     {
         $this->_storage->storeAll();
-        $this->_logger->log($this->_storage->path, Zend_Log::INFO);
+        //$this->_logger->log($this->_storage->path, Zend_Log::INFO);
         //$this->_logger->log($this->_storage->project, Zend_Log::INFO);
         //$this->_logger->log($this->_user->loggedIn, Zend_Log::INFO);
     }

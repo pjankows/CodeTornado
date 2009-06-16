@@ -22,7 +22,7 @@ class FileNavigation
         $this->_logger = Zend_Registry::get('logger');
         $this->_storage = SessionStorage::getInstance();
         $this->_pathBase = $this->_storage->getDataPath();
-        $this->_logger->log($this->_pathBase, Zend_Log::INFO);
+        //$this->_logger->log($this->_pathBase, Zend_Log::INFO);
         $this->_dirArray = $this->_storage->getDirArray();
         $this->_updatePath();
     }
