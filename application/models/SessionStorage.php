@@ -98,6 +98,19 @@ class SessionStorage
         }
     }
 
+    public function getGitClonePath()
+    {
+        if( isset($this->path->project) )
+        {
+            $base = Zend_Registry::getInstance()->config->git->path;
+            return( $base . $this->path->project );
+        }
+        else
+        {
+            throw new Exception('Error getting git clone path');
+        }
+    }
+
     /**
      * Retrieve the path to use as the file navigation base: /configDataPath/project/user/
     */

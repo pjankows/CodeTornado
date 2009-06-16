@@ -91,7 +91,7 @@ div.title p{
 }
 
 #menu{
-    height: 100px;
+    height: 80px;
 }
 
 #menu img{
@@ -114,21 +114,12 @@ div.title p{
     left:0;
     margin-left:0;
 }
-#navigation .branch{
-    list-style-image: url('/images/i-branch.png');
-}
-#navigation .file{
-    list-style-image: url('/images/i-file.png');
-}
-#navigation .dir{
-    list-style-image: url('/images/i-dir.png');
-}
-#navigation .updir{
-    list-style-image: url('/images/i-up.png');
-}
-#projectList{
-    list-style-image: url('/images/i-project.png');
-}
+#navigation .rev{list-style-image: url('/images/i-rev.png');}
+#navigation .branch{list-style-image: url('/images/i-branch.png');}
+#navigation .file{list-style-image: url('/images/i-file.png');}
+#navigation .dir{list-style-image: url('/images/i-dir.png');}
+#navigation .updir{list-style-image: url('/images/i-up.png');}
+#projectList{list-style-image: url('/images/i-project.png');}
 #codeBorder{
     border: 1px solid #d9d8d1;
 }

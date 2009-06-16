@@ -1,6 +1,7 @@
 <?php
 require_once MODEL_PATH . 'FileNavigation.php';
 require_once MODEL_PATH . 'BranchNavigation.php';
+require_once MODEL_PATH . 'HistoryNavigation.php';
 require_once FORM_PATH . 'NewFileForm.php';
 require_once FORM_PATH . 'NewDirForm.php';
 require_once FORM_PATH . 'NewBranchForm.php';
@@ -32,6 +33,7 @@ class AjaxController extends MainController
     private function _newFileDir( $form, $newMethod )
     {
         $this->_check();
+        $historyNavigation = new HistoryNavigation();
         $branchNavigation = new BranchNavigation();
         $fileNavigation = new FileNavigation();
         $request = $this->getRequest();
@@ -47,6 +49,8 @@ class AjaxController extends MainController
         $this->view->files = $fileNavigation->ls();
         $this->view->branch = $branchNavigation->getActiveBranch();
         $this->view->branches = $branchNavigation->getBranches();
+        $this->view->history = $historyNavigation->getHistory();
+        $this->view->headName = $historyNavigation->getHeadName();
     }
 
     /**
@@ -56,6 +60,7 @@ class AjaxController extends MainController
     {
         $this->_check();
         $form = new NewBranchForm();
+        $historyNavigation = new HistoryNavigation();
         $branchNavigation = new BranchNavigation();
         $fileNavigation = new FileNavigation();
         $request = $this->getRequest();
@@ -71,6 +76,8 @@ class AjaxController extends MainController
         $this->view->files = $fileNavigation->ls();
         $this->view->branch = $branchNavigation->getActiveBranch();
         $this->view->branches = $branchNavigation->getBranches();
+        $this->view->history = $historyNavigation->getHistory();
+        $this->view->headName = $historyNavigation->getHeadName();
     }
 
     /**

@@ -5,16 +5,17 @@ class Git
     //const gitdirname = '/.git';
     //const gitdir = ' --git-dir=';
     //const worktree = ' --work-tree=';
-    const add = ' add ';
-    const commit = ' commit -a -m ';
-    const init = ' init';
-    const config_name = ' config user.name ';
-    const config_email = ' config user.email ';
-    const branch = ' branch ';
-    const checkout = ' checkout ';
-    const rev_list = ' rev-list HEAD ';
-    const name_rev = ' name-rev ';
-    const rm = ' rm ';
+    const add = 'add';
+    const commit = 'commit -a -m';
+    const init = 'init';
+    const cloneRepo = 'clone --no-hardlinks';
+    const config_name = 'config user.name';
+    const config_email = 'config user.email';
+    const branch = 'branch';
+    const checkout = 'checkout';
+    const rev_list = 'rev-list HEAD';
+    const name_rev = 'name-rev';
+    const rm = 'rm';
 
     private $_git;
     private $_worktree;
@@ -22,27 +23,33 @@ class Git
 
     function __construct()
     {
+        $this->_logger = Zend_Registry::get('logger');
         $configuration = Zend_Registry::get('config');
         $this->_git = $configuration->git->command;
         $this->_worktree = SessionStorage::getInstance()->getGitPath();
-        $this->_logger = Zend_Registry::get('logger');
+        if( file_exists($this->_worktree) )
+        {
+            chdir( $this->_worktree );
+        }
+        else
+        {
+            $this->_logger->log($this->_worktree, Zend_Log::WARN);
+        }
     }
 
-    private function _run($param)
+    private function _run($param, $param2 = NULL)
     {
         //$command = $this->_git . self::gitdir . $this->_gitdir
         //. self::worktree . $this->_worktree . $param;
-        chdir( $this->_worktree );
-        $this->_logger->log($this->_worktree, Zend_Log::INFO);
-        $command = $this->_git . $param;
+        //$this->_logger->log($this->_worktree, Zend_Log::INFO);
+        $command = $this->_git . ' ' . $param . (isset($param2) ? ' ' . escapeshellarg($param2) : '');
         if( APPLICATION_ENVIRONMENT == 'development' )
         {
-            //$command .= ' 2>&1';
+            $command .= ' 2>&1';
         }
 
         $result = shell_exec( $command );
-        //return( $command . "<br />" . $result );
-        $this->_logger->log($command, Zend_Log::INFO);
+        $this->_logger->log($command, Zend_Log::DEBUG);
         $this->_logger->log($result, Zend_Log::INFO);
         return($result);
     }
@@ -54,12 +61,12 @@ class Git
 
     public function addFile($filename)
     {
-        $result = $this->_run( self::add . escapeshellarg($filename) );
+        $result = $this->_run( self::add, $filename );
     }
 
     public function rmFile($filename)
     {
-        $result = $this->_run( self::rm . escapeshellarg($filename) );
+        $result = $this->_run( self::rm, $filename );
     }
 
     public function autoCommit($commitMessage)
@@ -67,8 +74,7 @@ class Git
         $result = false;
         if( $commitMessage != '' )
         {
-            $params = self::commit . escapeshellarg($commitMessage);
-            $result = $this->_run($params);
+            $result = $this->_run( self::commit, $commitMessage);
         }
         return($result);
     }
@@ -76,9 +82,26 @@ class Git
     public function initRepo($name, $email)
     {
         $result = $this->_run( self::init );
-        $this->_run( self::config_name . escapeshellarg($name) );
-        $this->_run( self::config_email . escapeshellarg($email) );
+        $this->_run( self::config_name, $name );
+        $this->_run( self::config_email, $email );
         return($result);
+    }
+
+    public function cloneRepo($name, $email, $owner, $uid)
+    {
+        $ownerPath2 = substr($this->_worktree, 0, -strlen(strrchr($this->_worktree, '/')) );
+        $ownerPath = substr($ownerPath2, 0, -strlen(strrchr($ownerPath2, '/')) ) . '/' . $owner . '/';
+
+        $clonePath = SessionStorage::getInstance()->getGitClonePath();
+
+        chdir( $clonePath );
+        $target = ' ' . $uid;
+        $this->_logger->log($clonePath, Zend_Log::INFO);
+        $this->_logger->log($target, Zend_Log::INFO);
+        $result = $this->_run( self::cloneRepo, $ownerPath . $target );
+        chdir( $this->_worktree );
+        $this->_run( self::config_name, $name );
+        $this->_run( self::config_email, $email );
     }
 
     public function getBranches()
@@ -92,15 +115,20 @@ class Git
         return( $result );
     }
 
+    public function checkout($id)
+    {
+        $result = $this->_run( self::checkout, $id );
+        return($result);
+    }
+
     public function setBranch($branch)
     {
-        $result = $this->_run( self::checkout . escapeshellarg($branch) );
-        return($result);
+        $this->checkout($branch);
     }
 
     public function newBranch($branch)
     {
-        $result = $this->_run( self::branch . escapeshellarg($branch) );
+        $result = $this->_run( self::branch, $branch );
         return($result);
     }
 
@@ -113,23 +141,9 @@ class Git
         return( $result );
     }
 
-    public function getHistory()
+    public function getRevName($ident)
     {
-        $revs = $this->getRevs();
-        $named = array();
-        if( count($revs) > 0 )
-        {
-            foreach( $revs as $value )
-            {
-                $name = $this->_run( self::name_rev . escapeshellarg($value) );
-                $named[] = $result = strstr($name, ' ');
-            }
-        }
-        return( array_combine($revs, $named) );
-    }
-
-    public function getCurrentHeadName()
-    {
-
+        $result = $this->_run( self::name_rev, $ident );
+        return($result);
     }
 }

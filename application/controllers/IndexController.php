@@ -3,6 +3,7 @@ require_once MODEL_PATH . 'RawIO.php';
 require_once MODEL_PATH . 'Git.php';
 require_once MODEL_PATH . 'FileNavigation.php';
 require_once MODEL_PATH . 'BranchNavigation.php';
+require_once MODEL_PATH . 'HistoryNavigation.php';
 require_once FORM_PATH . 'NewFileForm.php';
 require_once FORM_PATH . 'NewDirForm.php';
 require_once FORM_PATH . 'NewBranchForm.php';
@@ -35,6 +36,7 @@ class IndexController extends MainController
         $validFile = false;
         $fileNavigation = new FileNavigation();
         $branchNavigation = new BranchNavigation();
+        $historyNavigation = new HistoryNavigation();
         $git = new Git();
         if( $request->isGet() )
         {
@@ -65,6 +67,8 @@ class IndexController extends MainController
         $this->view->files = $fileNavigation->ls();
         $this->view->branch = $branchNavigation->getActiveBranch();
         $this->view->branches = $branchNavigation->getBranches();
+        $this->view->history = $historyNavigation->getHistory();
+        $this->view->headName = $historyNavigation->getHeadName();
 
         $this->view->newFileForm = new NewFileForm();
         $this->view->newDirForm = new NewDirForm();

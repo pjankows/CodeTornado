@@ -88,24 +88,25 @@ class Project extends DbModel
         {
             //select the project as the active project once the required db entry exists
             $this->selectProject($pid);
-            if( file_exists( $this->getPath() . $this->_userPath ) )
-            {
-                throw new Exception('User directory in project folder already exists');
-            }
-            if( ! mkdir( $this->getPath() . $this->_userPath ) )
-            {
-                throw new Exception('Unable to create a user directory in the project folder');
-            }
             $git = new Git();
             if( $this->active->owner == $this->_uid )
             {
+                if( file_exists( $this->getPath() . $this->_userPath ) )
+                {
+                    throw new Exception('User directory in project folder already exists');
+                }
+                if( ! mkdir( $this->getPath() . $this->_userPath ) )
+                {
+                    throw new Exception('Unable to create a user directory in the project folder');
+                }
                 //===== GIT INIT =====
                 $git->initRepo( $this->_userName, $this->_userEmail );
             }
             else
             {
+                //clone should crete the user directory as it is required to clone to new dir
                 //===== GIT CLONE =====
-                $git->cloneRepo( $this->_userName, $this->_userEmail, $this->active->owner );
+                $git->cloneRepo( $this->_userName, $this->_userEmail, $this->active->owner, $this->_uid );
             }
         }
     }

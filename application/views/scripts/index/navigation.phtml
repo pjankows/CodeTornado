@@ -1,17 +1,4 @@
 <div class="title">
-<p><?php echo $this->escape($this->branch) ?></p>
-</div>
-<ul class="list">
-<?php
-if( count($this->branches) > 0 )
-    foreach( $this->branches as $branch )
-    {
-        echo '<li class="branch"><a href="?branch='.urlencode( $branch ).'">'.$this->escape($branch)."</a></li>\n";
-    }
-?>
-</ul>
-
-<div class="title">
 <p><?php echo $this->escape($this->path) ?></p>
 </div>
 <ul class="list">
@@ -29,5 +16,34 @@ if( count( $this->files['files'] ) > 0 )
     {
         echo '<li class="file"><a href="?file='.urlencode( $file ).'">'.$this->escape($file)."</a></li>\n";
     }
+?>
+</ul>
+
+<div class="title">
+<p>Branch: <?php echo $this->escape($this->branch) ?></p>
+</div>
+<ul class="list">
+<?php
+if( count($this->branches) > 0 )
+{
+    foreach( $this->branches as $branch )
+    {
+        echo '<li class="branch"><a href="?branch='.urlencode( $branch ).'">'.$this->escape($branch)."</a></li>\n";
+    }
+}
+?>
+</ul>
+
+<div class="title">
+<p>Head: <?php echo $this->escape($this->headName) ?></p>
+</div>
+<ul class="list">
+<?php if( count($this->history) > 0 )
+{
+    foreach( $this->history as $sha => $rev )
+    {
+        echo '<li class="rev"><a href="?sha='.urlencode( $sha ).'">'.$this->escape($rev)."</a></li>\n";
+    }
+}
 ?>
 </ul>
