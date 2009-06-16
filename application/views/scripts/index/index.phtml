@@ -1,11 +1,13 @@
 <div id="left">
 <div id="menu">
+<div class="title">
 <?php if($this->loggedIn) { ?>
-<span>User: <?php echo $this->loggedIn->name; ?></span><br />
+<p>User: <?php echo $this->loggedIn->name; ?></p>
 <?php } ?>
 <?php if($this->active) { ?>
-<span>Project: <?php echo $this->active->name; ?></span><br />
+<p>Project: <?php echo $this->active->name; ?></p>
 <?php } ?>
+</div>
 <a href="/user/logout/"><img src="/images/logout.png" alt="Logout" title="Logout" /></a>
 <a href="/project/open/"><img src="/images/open.png" alt="Open Project" title="Open Project" /></a>
 <a href="#" onclick="showNewFile();"><img src="/images/newfile.png" alt="New file" title="New file" /></a>
@@ -23,17 +25,20 @@
 <div id="center">
 
 <div id="newfile" class="hidden">
+<img src="/images/newfile.png" alt="New file" />
 <?php echo $this->newFileForm ?>
 </div>
 <div id="newdir" class="hidden">
+<img src="/images/newdir.png" alt="New dir" />
 <?php echo $this->newDirForm ?>
 </div>
 <div id="newbranch" class="hidden">
+<img src="/images/newbranch.png" alt="New branch" />
 <?php echo $this->newBranchForm ?>
 </div>
 
 <div class="title">
-<?php echo $this->escape( $this->editing ); ?>
+<p><?php echo $this->escape( $this->editing ); ?></p>
 </div>
 <form id="editorForm" method="post" action="/">
 <div id="codeBorder">

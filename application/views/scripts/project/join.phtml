@@ -4,5 +4,13 @@
 <?php if( isset($this->joinMsg) ) { ?>
     <p class="proMsg"><?php echo $this->escape( $this->joinMsg ) ?></p>
 <?php } ?>
-<?php echo $this->form; ?>
+<?php
+if( count($this->projects) > 0 )
+{
+    echo $this->form;
+}
+else
+{ ?>
+<p>No projects to join. Create a <a href="/project/new/">new</a> one or <a href="/project/open/">open</a> an existing project.</p>
+<? } ?>
 </div>

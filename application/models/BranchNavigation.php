@@ -48,10 +48,10 @@ class BranchNavigation
 
     public function newBranch($formData)
     {
-        $this->_git->autoCommit('AutoCommit: Making new branch '.$formData['name']);
-        if( is_array($formData) && isset($formData['name']) )
+        $this->_git->autoCommit('AutoCommit: Making new branch '.$formData['name_branch']);
+        if( is_array($formData) && isset($formData['name_branch']) )
         {
-            $this->_git->newBranch($formData['name']);
+            $this->_git->newBranch($formData['name_branch']);
             $this->_branches = $this->_git->getBranches();
         }
         else

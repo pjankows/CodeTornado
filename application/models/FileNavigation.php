@@ -110,11 +110,11 @@ class FileNavigation
 
     public function newDir($formData)
     {
-        if( is_array($formData) && isset($formData['name']) )
+        if( is_array($formData) && isset($formData['name_dir']) )
         {
-            if( ! mkdir( $this->getPath() . $formData['name'] ) )
+            if( ! mkdir( $this->getPath() . $formData['name_dir'] ) )
             {
-                throw new Exception('Error creating directory ' . $this->getPath() . $formData['name'] );
+                throw new Exception('Error creating directory ' . $this->getPath() . $formData['name_dir'] );
             }
         }
         else

@@ -79,7 +79,7 @@ class ProjectController extends MainController
                 }
             }
         }
-        //print_r($projects);
+        $this->view->projects = $projects;
         $this->view->form = $form;
     }
 

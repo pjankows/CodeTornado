@@ -20,9 +20,11 @@ class NewFileForm extends Zend_Form
         $cancel = new Zend_Form_Element_Button('cancel');
         $cancel->setLabel('Cancel');
         $cancel->setAttrib('onclick', 'hideNewFile()');
+        $cancel->setAttrib('class', 'button');
 
         $submit = new Zend_Form_Element_Submit('new');
         $submit->setLabel('New');
+        $submit->setAttrib('class', 'button');
 
         $this->setElements( array(
             $name,

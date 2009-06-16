@@ -21,7 +21,8 @@ h1{
     color: #0f0;
 }
 
-div.title{
+div.title p{
+    margin: 0;
     display: block;
     padding: 2px 8px;
     font-weight: bold;
@@ -63,24 +64,23 @@ div.title{
     padding: 10px;
     top: 15px;
     left: 15px;
-    width: 150px;
+    width: 190px;
     background-color: #ffffff;
     border: 1px solid #000000;
     z-index: 100;
 }
-#new-label, #cancel-label, #cancel-element, #new-element,
-#new, #cancel{
-    margin: 0px;
-    width: 60px;
+
+#newfile dd, #newfile dt, #newdir dd, #newdir dt, #newbranch dd, #newbranch dt{
     display: inline;
+    margin: 0px;
+}
+.button{
+    width: 60px;
 }
 
-#newfile #name-element, #newdir #name-element, #newbranch #name-element {
+#name-element, #name_dir-element, #name_branch-element {
     margin: 0px;
     padding: 10px;
-}
-#newfile #name-element #name, #newdir #name-element #name, #newbranch #name-element #name{
-    width: 120px;
 }
 
 #left{
@@ -97,6 +97,7 @@ div.title{
 #menu img{
     height: 24px;
     width: 24px;
+    margin: 2px;
 }
 
 #navigation{
@@ -124,6 +125,9 @@ div.title{
 }
 #navigation .updir{
     list-style-image: url('/images/i-up.png');
+}
+#projectList{
+    list-style-image: url('/images/i-project.png');
 }
 #codeBorder{
     border: 1px solid #d9d8d1;
