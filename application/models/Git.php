@@ -12,6 +12,8 @@ class Git
     const config_email = ' config user.email ';
     const branch = ' branch ';
     const checkout = ' checkout ';
+    const rev_list = ' rev-list HEAD ';
+    const name_rev = ' name-rev ';
     const rm = ' rm ';
 
     private $_git;
@@ -100,5 +102,34 @@ class Git
     {
         $result = $this->_run( self::branch . escapeshellarg($branch) );
         return($result);
+    }
+
+    public function getRevs()
+    {
+        $result = $this->_run( self::rev_list );
+        $result = explode("\n", $result);
+        $max = count($result)-1;
+        unset( $result[ $max ] );
+        return( $result );
+    }
+
+    public function getHistory()
+    {
+        $revs = $this->getRevs();
+        $named = array();
+        if( count($revs) > 0 )
+        {
+            foreach( $revs as $value )
+            {
+                $name = $this->_run( self::name_rev . escapeshellarg($value) );
+                $named[] = $result = strstr($name, ' ');
+            }
+        }
+        return( array_combine($revs, $named) );
+    }
+
+    public function getCurrentHeadName()
+    {
+
     }
 }

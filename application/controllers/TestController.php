@@ -19,8 +19,10 @@ class TestController extends MainController
 //         $result['localPath'] = $this->_storage->getWorkLocalPath();
 //         $this->_storage->setProject(111);
         //$this->_storage->path->fromUid(23);
+        $git = new Git();
+        $result = $git->getHistory();
         $this->_logger = Zend_Registry::get('logger');
-        $this->_logger->log($this->_storage, Zend_Log::INFO);
+        $this->_logger->log($result, Zend_Log::INFO);
         $this->view->test = $result;
     }
 }

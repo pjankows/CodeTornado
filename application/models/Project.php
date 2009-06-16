@@ -96,10 +96,17 @@ class Project extends DbModel
             {
                 throw new Exception('Unable to create a user directory in the project folder');
             }
-            //===== GIT INIT =====
             $git = new Git();
-            $git->initRepo( $this->_userName, $this->_userEmail );
-            //===== GIT INIT =====
+            if( $this->active->owner == $this->_uid )
+            {
+                //===== GIT INIT =====
+                $git->initRepo( $this->_userName, $this->_userEmail );
+            }
+            else
+            {
+                //===== GIT CLONE =====
+                $git->cloneRepo( $this->_userName, $this->_userEmail, $this->active->owner );
+            }
         }
     }
 
