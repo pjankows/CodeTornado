@@ -2,6 +2,7 @@
 require_once MODEL_PATH . 'Git.php';
 class HistoryNavigation
 {
+    const headerr = "Could not get sha1 for HEAD. Skipping.\n";
     const head = 'HEAD';
 
     private $_git;
@@ -30,7 +31,16 @@ class HistoryNavigation
 
     public function getHeadName()
     {
-        return( strstr($this->_git->getRevName(self::head), ' ') );
+        $result = $this->_git->getRevName(self::head);
+        if( $result == self::headerr )
+        {
+            $result = '';
+        }
+        else
+        {
+            $result = strstr($result, ' ');
+        }
+        return( $result );
     }
 
     public function setRev($id)

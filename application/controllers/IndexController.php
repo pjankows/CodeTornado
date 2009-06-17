@@ -66,18 +66,6 @@ class IndexController extends MainController
             }
         }
 
-        $this->view->editing = $io->getFile();
-        $this->view->path = '/' . $fileNavigation->getDir();
-        $this->view->files = $fileNavigation->ls();
-        $this->view->branch = $branchNavigation->getActiveBranch();
-        $this->view->branches = $branchNavigation->getBranches();
-        $this->view->history = $historyNavigation->getHistory();
-        $this->view->headName = $historyNavigation->getHeadName();
-
-        $this->view->newFileForm = new NewFileForm();
-        $this->view->newDirForm = new NewDirForm();
-        $this->view->newBranchForm = new NewBranchForm();
-
         if( isset($_POST['code']) )
         {
             $code = $_POST['code'];
@@ -90,5 +78,17 @@ class IndexController extends MainController
             }
         }
         $this->view->content = $io->getContent();
+
+        $this->view->editing = $io->getFile();
+        $this->view->path = '/' . $fileNavigation->getDir();
+        $this->view->files = $fileNavigation->ls();
+        $this->view->branch = $branchNavigation->getActiveBranch();
+        $this->view->branches = $branchNavigation->getBranches();
+        $this->view->history = $historyNavigation->getHistory();
+        $this->view->headName = $historyNavigation->getHeadName();
+
+        $this->view->newFileForm = new NewFileForm();
+        $this->view->newDirForm = new NewDirForm();
+        $this->view->newBranchForm = new NewBranchForm();
     }
 }
