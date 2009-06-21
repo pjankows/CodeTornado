@@ -38,12 +38,30 @@ class Git
         }
     }
 
+    private function escapeParams($params)
+    {
+        $result = '';
+        if( is_array($params) )
+        {
+            foreach( $params as $par )
+            {
+                $result .= ' ' . escapeshellarg($par);
+            }
+        }
+        else
+        {
+            $result .= ' ' . escapeshellarg($params);
+        }
+        return($result);
+    }
+
     private function _run($param, $param2 = NULL)
     {
         //$command = $this->_git . self::gitdir . $this->_gitdir
         //. self::worktree . $this->_worktree . $param;
         //$this->_logger->log($this->_worktree, Zend_Log::INFO);
-        $command = $this->_git . ' ' . $param . (isset($param2) ? ' ' . escapeshellarg($param2) : '');
+
+        $command = $this->_git . ' ' . $param . (isset($param2) ? $this->escapeParams($param2)  : '');
         if( APPLICATION_ENVIRONMENT == 'development' )
         {
             $command .= ' 2>&1';
@@ -97,10 +115,10 @@ class Git
         $clonePath = SessionStorage::getInstance()->getGitClonePath();
 
         chdir( $clonePath );
-        $target = ' ' . $uid;
+        $target = $uid;
         $this->_logger->log($clonePath, Zend_Log::INFO);
         $this->_logger->log($target, Zend_Log::INFO);
-        $result = $this->_run( self::cloneRepo, $ownerPath . $target );
+        $result = $this->_run( self::cloneRepo, array($ownerPath, $target) );
         chdir( $this->_worktree );
         $this->_run( self::config_name, $name );
         $this->_run( self::config_email, $email );
