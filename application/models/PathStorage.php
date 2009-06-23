@@ -5,6 +5,7 @@ class PathStorage
     public $user;
     public $dirArray;
     public $fileName;
+    public $filePath;
 
     public function fromPid($pid)
     {
@@ -28,12 +29,13 @@ class PathStorage
         }
     }
 
-    public function setFileName($fileName)
+    public function setFile($fileName, $filePath)
     {
         if( strstr($fileName, '/') !== FALSE )
         {
             throw new Exception('Illegal character present in file name');
         }
         $this->fileName = $fileName;
+        $this->filePath = $filePath;
     }
 }

@@ -223,6 +223,7 @@ class Git
 
     public function merge($branch)
     {
-
+        $result = $this->_run( self::merge, $branch );
+        return($result);
     }
 }

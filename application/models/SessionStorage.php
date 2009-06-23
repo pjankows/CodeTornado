@@ -6,7 +6,6 @@ class SessionStorage
 {
     static protected $_instance;
     private $_session;
-    private $_logger;
 
     /*
      * ->pid
@@ -35,7 +34,6 @@ class SessionStorage
     */
     private function __construct()
     {
-        $this->_logger = Zend_Registry::get('logger');
         $this->_session = new Zend_Session_Namespace('RTVCS');
         foreach( $this->_session as $key => $value )
         {

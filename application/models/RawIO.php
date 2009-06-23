@@ -3,15 +3,16 @@ class RawIO
 {
     private $_pathname = NULL;
     private $_name = NULL;
-    private $_session;
+    private $_storage;
+    //private $_session;
 
     function __construct()
     {
-        $this->_session = new Zend_Session_Namespace('RawIO');
-        if( isset( $this->_session->pathname ) )
+        $this->_storage = SessionStorage::getInstance();
+        if( isset( $this->_storage->path->fileName ) )
         {
-            $this->_pathname = $this->_session->pathname;
-            $this->_name = $this->_session->name;
+            $this->_pathname = $this->_storage->path->filePath;
+            $this->_name = $this->_storage->path->fileName;
         }
     }
 
@@ -24,8 +25,8 @@ class RawIO
     {
         $this->_pathname = $path . $name;
         $this->_name = $name;
-        $this->_session->pathname = $this->_pathname;
-        $this->_session->name = $this->_name;
+        $this->_storage->path->filePath = $this->_pathname;
+        $this->_storage->path->fileName = $this->_name;
     }
 
     public function getContent()

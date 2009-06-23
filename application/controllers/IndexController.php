@@ -65,6 +65,10 @@ class IndexController extends MainController
             {
                 $historyNavigation->setRev( $request->getQuery('sha') );
             }
+            if( $request->getQuery('merge') != NULL )
+            {
+                $git->merge( $request->getQuery('merge') );
+            }
         }
 
         if( isset($_POST['code']) )
