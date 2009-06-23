@@ -1,6 +1,7 @@
 <?php
 require_once MODEL_PATH . 'RawIO.php';
 require_once MODEL_PATH . 'Git.php';
+require_once MODEL_PATH . 'Remotes.php';
 require_once MODEL_PATH . 'FileNavigation.php';
 require_once MODEL_PATH . 'BranchNavigation.php';
 require_once MODEL_PATH . 'HistoryNavigation.php';
@@ -30,6 +31,7 @@ class IndexController extends MainController
 
     public function indexAction()
     {
+        $result = '';
         $request = $this->getRequest();
         $io = new RawIO();
         //handle file navagation
@@ -37,10 +39,13 @@ class IndexController extends MainController
         $fileNavigation = new FileNavigation();
         $branchNavigation = new BranchNavigation();
         $historyNavigation = new HistoryNavigation();
+        $remotes = new Remotes();
+        $remotes->setUid( $this->_user->loggedIn->uid );
 
         $git = new Git();
         if( $request->isGet() )
         {
+            //===begin file navigation===
             if( $request->getQuery('updir') != NULL )
             {
                 $updirs = (int) $request->getQuery('updir');
@@ -57,17 +62,18 @@ class IndexController extends MainController
                     $io->setFile( $fileNavigation->getPath(), $request->getQuery('file') );
                 }
             }
+            //===end file navigation===
             if( $request->getQuery('branch') != NULL )
             {
-                $branchNavigation->setBranch( $request->getQuery('branch') );
+                $result = $branchNavigation->setBranch( $request->getQuery('branch') );
             }
             if( $request->getQuery('sha') != NULL )
             {
-                $historyNavigation->setRev( $request->getQuery('sha') );
+                $result = $historyNavigation->setRev( $request->getQuery('sha') );
             }
             if( $request->getQuery('merge') != NULL )
             {
-                $git->merge( $request->getQuery('merge') );
+                $result = $git->merge( $request->getQuery('merge') );
             }
         }
 
@@ -79,9 +85,9 @@ class IndexController extends MainController
             {
                 $msg = $_POST['commitMessage'];
                 $result = $git->autoCommit($msg);
-                $this->view->result = $result;
             }
         }
+        $this->view->result = $result;
         $this->view->content = $io->getContent();
 
         $this->view->editing = $io->getFile();
@@ -91,6 +97,8 @@ class IndexController extends MainController
         $this->view->branches = $branchNavigation->getBranches();
         $this->view->history = $historyNavigation->getHistory();
         $this->view->headName = $historyNavigation->getHeadName();
+
+        $this->view->avail = $remotes->getRepos();
 
         $this->view->newFileForm = new NewFileForm();
         $this->view->newDirForm = new NewDirForm();

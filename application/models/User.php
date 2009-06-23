@@ -40,9 +40,9 @@ class User extends DbModel
     */
     public function logout()
     {
-        $this->_auth->clearIdentity();
+        //$this->_auth->clearIdentity();
         $this->_auth->getStorage()->clear();
-        $this->_storage->clearAll();
+        //$this->_storage->clearAll();
         Zend_Session::expireSessionCookie();
     }
 

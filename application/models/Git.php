@@ -24,7 +24,7 @@ class Git
     private $_worktree;
     private $_logger;
 
-    function __construct()
+    function __construct($worktree = NULL)
     {
         $this->_logger = Zend_Registry::get('logger');
         $configuration = Zend_Registry::get('config');
@@ -93,7 +93,7 @@ class Git
         }
 
         $result = shell_exec( $command );
-        $this->_logger->log($command, Zend_Log::DEBUG);
+        //$this->_logger->log($command, Zend_Log::DEBUG);
         $this->_logger->log($result, Zend_Log::INFO);
         return($result);
     }
@@ -174,6 +174,8 @@ class Git
     public function newBranch($branch)
     {
         $result = $this->_run( self::branch, $branch );
+        $result = $this->_run( self::branch, '_auto_' . $branch );
+        $result = $this->checkout( '_auto_' . $branch );
         return($result);
     }
 

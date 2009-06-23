@@ -33,10 +33,18 @@ class RawIO
     {
         if( $this->_pathname != NULL  )
         {
-            $content = file_get_contents($this->_pathname);
-            if( $content === false )
+            if( file_exists($this->_pathname) )
             {
-                throw new Exception('Error reading file: '. $this->_pathname);
+                $content = file_get_contents($this->_pathname);
+                if( $content === false )
+                {
+                    throw new Exception('Error reading file: '. $this->_pathname);
+                }
+            }
+            else
+            {
+                $content = 'File does not exist';
+                $this->setFile(NULL, NULL);
             }
         }
         else

@@ -1,5 +1,5 @@
 <div class="title">
-<p>Path: <?php echo $this->escape($this->path) ?></p>
+<p>File navigation</p><p>Path: <?php echo $this->escape($this->path) ?></p>
 </div>
 <ul class="list">
 <?php if( strlen($this->path) > 1 ) {?>
@@ -20,7 +20,7 @@ if( count( $this->files['files'] ) > 0 )
 </ul>
 
 <div class="title">
-<p>Branch: <?php echo $this->escape($this->branch) ?></p>
+<p>Branch navigation</p><p>Branch: <?php echo $this->escape($this->branch) ?></p>
 </div>
 <ul class="list">
 <?php
@@ -35,7 +35,7 @@ if( count($this->branches) > 0 )
 </ul>
 
 <div class="title">
-<p>Head: <?php echo $this->escape($this->headName) ?></p>
+<p>Commit history navigation</p><p>Head: <?php echo $this->escape($this->headName) ?></p>
 </div>
 <ul class="list">
 <?php

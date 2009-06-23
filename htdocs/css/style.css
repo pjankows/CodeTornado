@@ -127,6 +127,8 @@ div.title p{
 #navigation .dir{list-style-image: url('/images/i-dir.png');}
 #navigation .updir{list-style-image: url('/images/i-up.png');}
 #merger .merge{list-style-image: url('/images/i-merge.png');}
+#merger .pull{list-style-image: url('/images/i-pull.png');}
+#merger .avail{list-style-image: url('/images/i-avail.png');}
 #projectList{list-style-image: url('/images/i-project.png');}
 #codeBorder{
     border: 1px solid #d9d8d1;

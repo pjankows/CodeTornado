@@ -6,7 +6,12 @@ class Remotes extends DbModel
     private $_pid;
     private $_uid;
 
-    public function getRepos($pid, $uid)
+    protected function init()
+    {
+        $this->_pid = $this->_storage->project->pid;
+    }
+
+    public function getRepos()
     {
         $sql = 'SELECT users.uid, users.user FROM users, user_project WHERE users.uid=user_project.uid
             AND user_project.pid=? AND user_project.uid!=?';
@@ -14,14 +19,9 @@ class Remotes extends DbModel
         return($result);
     }
 
-    public function getRemotes($pid, $uid)
+    public function getRemotes()
     {
-        $sql = 'SELECT '
-    }
-
-    public function setPid($pid)
-    {
-        $this->_pid = $pid;
+        //$sql = 'SELECT '
     }
 
     public function setUid($uid)
