@@ -110,9 +110,11 @@ div.title p{
     width: 60%;
 }
 
-#left{
+#right{
     float: left;
     position: relative;
+    width: 20%;
+    margin: 0;
 }
 
 #navigation .list{

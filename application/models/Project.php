@@ -10,7 +10,7 @@ class Project extends DbModel
     private $_userName;
     private $_userEmail;
 
-    public $active = NULL;
+    public $active;
 
     private $_logger;
 
@@ -166,10 +166,8 @@ class Project extends DbModel
     public function getProjectsToJoin()
     {
         $sql = 'SELECT projects.pid, name FROM projects, user_project WHERE
-            projects.pid = user_project.pid AND projects.pid NOT IN (
-                SELECT projects.pid FROM projects, user_project WHERE
-                    projects.pid = user_project.pid AND user_project.uid = ?
-                )';
+            projects.pid = user_project.pid AND projects.pid NOT IN
+                ( SELECT pid FROM user_project WHERE uid = ? )';
         $result = $this->_db->fetchPairs( $sql, array( $this->_uid ));
         return( $result );
     }

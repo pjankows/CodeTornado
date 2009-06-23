@@ -37,6 +37,7 @@ class IndexController extends MainController
         $fileNavigation = new FileNavigation();
         $branchNavigation = new BranchNavigation();
         $historyNavigation = new HistoryNavigation();
+
         $git = new Git();
         if( $request->isGet() )
         {

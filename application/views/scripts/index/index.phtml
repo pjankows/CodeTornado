@@ -1,4 +1,5 @@
 <div id="left">
+
 <div id="menu">
 <div class="title">
 <?php if($this->loggedIn) { ?>
@@ -18,6 +19,7 @@
 <div id="navigation">
 <?php include 'navigation.phtml' ?>
 </div>
+
 </div>
 
 <div id="center">
@@ -48,17 +50,22 @@
 </p>
 </form>
 <?php echo $this->result; ?>
-<script type="text/javascript">
-//<![CDATA[
-dojo.addOnLoad(init);
-//]]>
-</script>
 
 </div>
 
 <div id="right">
 
+<div id="localmerge">
+<?php include 'merging.phtml' ?>
+</div>
+
 </div>
 
 <div id="footer">
 </div>
+
+<script type="text/javascript">
+//<![CDATA[
+dojo.addOnLoad(init);
+//]]>
+</script>

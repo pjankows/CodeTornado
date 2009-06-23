@@ -2,13 +2,10 @@
 require_once MODEL_PATH . 'SessionStorage.php';
 class Git
 {
-    //const gitdirname = '/.git';
-    //const gitdir = ' --git-dir=';
-    //const worktree = ' --work-tree=';
     const fatal = 'fatal';
     const add = 'add';
     const commit = 'commit -a -m';
-    const init = 'init';
+    const initRepo = 'init';
     const cloneRepo = 'clone --no-hardlinks';
     const config_name = 'config user.name';
     const config_email = 'config user.email';
@@ -17,7 +14,12 @@ class Git
     const rev_list = 'rev-list HEAD';
     const name_rev = 'name-rev';
     const rm = 'rm';
+    const pull = 'pull';
+    const remote = 'remote';
+    const merge = 'merge';
+    const cd = 'cd';
 
+    private $_shell;
     private $_git;
     private $_worktree;
     private $_logger;
@@ -27,14 +29,23 @@ class Git
         $this->_logger = Zend_Registry::get('logger');
         $configuration = Zend_Registry::get('config');
         $this->_git = $configuration->git->command;
+        $this->_shell = $configuration->git->shell;
         $this->_worktree = SessionStorage::getInstance()->getGitPath();
-        if( file_exists($this->_worktree) )
+        if($this->_shell === '')
         {
-            chdir( $this->_worktree );
+            if(  file_exists($this->_worktree) )
+            {
+                chdir( $this->_worktree );
+                $this->_logger->log('Switched to: ' . $this->_worktree, Zend_Log::DEBUG);
+            }
+            else
+            {
+                $this->_logger->log('Path not found: ' . $this->_worktree, Zend_Log::WARN);
+            }
         }
         else
         {
-            $this->_logger->log($this->_worktree, Zend_Log::WARN);
+            $this->_logger->log('Remote shell path to be set: ' . $this->_worktree, Zend_Log::INFO);
         }
     }
 
@@ -61,7 +72,21 @@ class Git
         //. self::worktree . $this->_worktree . $param;
         //$this->_logger->log($this->_worktree, Zend_Log::INFO);
 
-        $command = $this->_git . ' ' . $param . (isset($param2) ? $this->escapeParams($param2)  : '');
+        $git = $this->_git . ' ' . $param . (isset($param2) ? $this->escapeParams($param2)  : '');
+        $command = '';
+        //ssh to remote host if needed to run git via the shell config variable
+        if( $this->_shell !== '' )
+        {
+            //if the remote shell is required perform directory switch on each command
+            $cd = self::cd . ' ' . $this->_worktree . ';';
+            $git .= ';';
+            $command = $this->_shell . ' ' . escapeshellarg( $cd . $git );
+        }
+        else
+        {
+            $command = $git;
+        }
+
         if( APPLICATION_ENVIRONMENT == 'development' )
         {
             $command .= ' 2>&1';
@@ -101,7 +126,7 @@ class Git
     public function initRepo($name, $email)
     {
         chdir( $this->_worktree );
-        $result = $this->_run( self::init );
+        $result = $this->_run( self::initRepo );
         $this->_run( self::config_name, $name );
         $this->_run( self::config_email, $email );
         return($result);
@@ -163,6 +188,7 @@ class Git
         }
         else
         {
+            //for repo with no commits
             $result = array();
         }
         return( $result );
@@ -172,5 +198,31 @@ class Git
     {
         $result = $this->_run( self::name_rev, $ident );
         return($result);
+    }
+
+    public function pull($repopath, $branch = '')
+    {
+        $result = $this->_run( self::pull, array($repopath, $branch) );
+        return($result);
+    }
+
+    /**
+     * TODO: proper escape $remotes and $branch
+    */
+    public function pullRemote($remote, $branch)
+    {
+        $result = $this->pull('.', "remotes/$remote/$branch");
+        return($result);
+    }
+
+    public function remote($name, $url)
+    {
+        $result = $this->_run( self::remote, array($name, $url) );
+        return($result);
+    }
+
+    public function merge($branch)
+    {
+
     }
 }

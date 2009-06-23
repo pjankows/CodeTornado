@@ -22,7 +22,10 @@ return array(
             'salt' => '5#6n$v78!9v|n%u6y',
             'git' => array
             (
+                //'shell' => 'ssh s cd '
+                'shell' => '',
                 'command' => 'git',
+                //change path when not running git on localhost
                 'path' => APPLICATION_PATH . '/../data/'
             ),
             'data' => array

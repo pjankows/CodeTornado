@@ -12,10 +12,13 @@ class ProjectController extends MainController
     public function init()
     {
         parent::init();
-        $loggedIn = $this->_user->loggedIn;
-        $this->_project = new Project();
-        $this->_project->setUserData( $loggedIn->uid, $this->_user->getPath(),
-                                      $loggedIn->name, $loggedIn->email );
+        if( isset( $this->_user->loggedIn ) )
+        {
+            $loggedIn = $this->_user->loggedIn;
+            $this->_project = new Project();
+            $this->_project->setUserData( $loggedIn->uid, $this->_user->getPath(),
+                                        $loggedIn->name, $loggedIn->email );
+        }
 
     }
 
