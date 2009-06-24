@@ -3,6 +3,7 @@ require_once MODEL_PATH . 'Git.php';
 class BranchNavigation
 {
     private $_git;
+    private $_branches;
 
     function __construct()
     {
@@ -11,7 +12,11 @@ class BranchNavigation
 
     public function getBranches()
     {
-        $result = $this->_git->getBranches();
+        if( ! isset( $this->_branches ) )
+        {
+            $this->_branches = $this->_git->getBranches();
+        }
+        $result = $this->_branches;
         foreach( $result as $key => $value )
         {
             $result[$key] = substr($value, 2);
@@ -22,7 +27,11 @@ class BranchNavigation
     public function getActiveBranch()
     {
         $result = NULL;
-        $branches = $this->_git->getBranches();
+        if( ! isset( $this->_branches ) )
+        {
+            $this->_branches = $this->_git->getBranches();
+        }
+        $branches = $this->_branches;
         if( count($branches) > 0 )
         {
             foreach( $branches as $value )

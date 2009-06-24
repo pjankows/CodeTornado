@@ -10,12 +10,14 @@ class Git
     const config_name = 'config user.name';
     const config_email = 'config user.email';
     const branch = 'branch';
+    const branch_remote = 'branch -r';
     const checkout = 'checkout';
     const rev_list = 'rev-list HEAD';
     const name_rev = 'name-rev';
     const rm = 'rm';
     const pull = 'pull';
     const remote = 'remote';
+    const remote_add = 'remote add -f';
     const merge = 'merge';
     const cd = 'cd';
 
@@ -49,7 +51,17 @@ class Git
         }
     }
 
-    private function escapeParams($params)
+    private function _splitByN($str)
+    {
+        //split by newlines
+        $result = explode("\n", $str);
+        //unset the empty element at the end of array
+        $max = count($result)-1;
+        unset( $result[ $max ] );
+        return( $result );
+    }
+
+    private function _escapeParams($params)
     {
         $result = '';
         if( is_array($params) )
@@ -68,11 +80,8 @@ class Git
 
     private function _run($param, $param2 = NULL)
     {
-        //$command = $this->_git . self::gitdir . $this->_gitdir
-        //. self::worktree . $this->_worktree . $param;
         //$this->_logger->log($this->_worktree, Zend_Log::INFO);
-
-        $git = $this->_git . ' ' . $param . (isset($param2) ? $this->escapeParams($param2)  : '');
+        $git = $this->_git . ' ' . $param . (isset($param2) ? $this->_escapeParams($param2)  : '');
         $command = '';
         //ssh to remote host if needed to run git via the shell config variable
         if( $this->_shell !== '' )
@@ -93,8 +102,11 @@ class Git
         }
 
         $result = shell_exec( $command );
-        //$this->_logger->log($command, Zend_Log::DEBUG);
-        $this->_logger->log($result, Zend_Log::INFO);
+        if( $param !== self::name_rev )
+        {
+            $this->_logger->log($command, Zend_Log::DEBUG);
+            $this->_logger->log($result, Zend_Log::INFO);
+        }
         return($result);
     }
 
@@ -139,11 +151,16 @@ class Git
 
         $clonePath = SessionStorage::getInstance()->getGitClonePath();
 
-        chdir( $clonePath );
+        $properPath = $this->_worktree;
+        //worktree needs to be set up for ssh based git shells
+        $this->_worktree = $clonePath;
+        chdir( $this->_worktree );
         $target = $uid;
         $this->_logger->log($clonePath, Zend_Log::INFO);
         $this->_logger->log($target, Zend_Log::INFO);
         $result = $this->_run( self::cloneRepo, array($ownerPath, $target) );
+        //after running clone the proper user folder should exist now
+        $this->_worktree = $properPath;
         chdir( $this->_worktree );
         $this->_run( self::config_name, $name );
         $this->_run( self::config_email, $email );
@@ -152,11 +169,7 @@ class Git
     public function getBranches()
     {
         $result = $this->_run( self::branch );
-        //split by newlines
-        $result = explode("\n", $result);
-        //unset the empty element at the end of array
-        $max = count($result)-1;
-        unset( $result[ $max ] );
+        $result = $this->_splitByN( $result );
         return( $result );
     }
 
@@ -174,7 +187,7 @@ class Git
     public function newBranch($branch)
     {
         $result = $this->_run( self::branch, $branch );
-        $result = $this->_run( self::branch, '_auto_' . $branch );
+        //$result = $this->_run( self::branch, '_auto_' . $branch );
         $result = $this->checkout( '_auto_' . $branch );
         return($result);
     }
@@ -184,9 +197,7 @@ class Git
         $result = $this->_run( self::rev_list );
         if( strpos($result, self::fatal ) === FALSE )
         {
-            $result = explode("\n", $result);
-            $max = count($result)-1;
-            unset( $result[ $max ] );
+            $result = $this->_splitByN( $result );
         }
         else
         {
@@ -202,24 +213,35 @@ class Git
         return($result);
     }
 
-    public function pull($repopath, $branch = '')
+    private function pull($repopath, $branch = '')
     {
         $result = $this->_run( self::pull, array($repopath, $branch) );
         return($result);
     }
 
-    /**
-     * TODO: proper escape $remotes and $branch
-    */
-    public function pullRemote($remote, $branch)
+    public function pullRemote($remoteBranch)
     {
-        $result = $this->pull('.', "remotes/$remote/$branch");
+        $result = $this->pull('.', "remotes/$remoteBranch");
         return($result);
     }
 
-    public function remote($name, $url)
+    public function addRemote($name, $url)
     {
-        $result = $this->_run( self::remote, array($name, $url) );
+        $result = $this->_run( self::remote_add, array($name, $url) );
+        return($result);
+    }
+
+    public function getRemotes()
+    {
+        $result = $this->_run( self::remote );
+        $result = $this->_splitByN( $result );
+        return($result);
+    }
+
+    public function getRemoteBranches()
+    {
+        $result = $this->_run( self::branch_remote );
+        $result = $this->_splitByN( $result );
         return($result);
     }
 

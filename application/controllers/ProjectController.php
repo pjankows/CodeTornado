@@ -78,7 +78,7 @@ class ProjectController extends MainController
                 if( $this->_user->loggedIn !== false )
                 {
                     $this->_project->joinProject($post['name']);
-                    //$this->_redirect('/');
+                    $this->_redirect('/');
                 }
             }
         }

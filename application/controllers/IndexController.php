@@ -71,10 +71,20 @@ class IndexController extends MainController
             {
                 $result = $historyNavigation->setRev( $request->getQuery('sha') );
             }
+            //===begin merger===
             if( $request->getQuery('merge') != NULL )
             {
                 $result = $git->merge( $request->getQuery('merge') );
             }
+            if( $request->getQuery('pull') != NULL )
+            {
+                $result = $remotes->pullRemote( $request->getQuery('pull') );
+            }
+            if( $request->getQuery('avail') != NULL )
+            {
+                $result = $remotes->addRemote( $request->getQuery('avail') );
+            }
+            //===end merger===
         }
 
         if( isset($_POST['code']) )
@@ -99,6 +109,7 @@ class IndexController extends MainController
         $this->view->headName = $historyNavigation->getHeadName();
 
         $this->view->avail = $remotes->getRepos();
+        $this->view->remotes = $remotes->getRemotes();
 
         $this->view->newFileForm = new NewFileForm();
         $this->view->newDirForm = new NewDirForm();

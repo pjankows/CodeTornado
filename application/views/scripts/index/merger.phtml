@@ -1,4 +1,4 @@
-<div class="title"><p>Merge with</p></div>
+<div class="title"><p>Merge</p><p>Local branches</p></div>
 <ul class="list">
 <?php
 if( count($this->branches) > 0 )
@@ -8,7 +8,7 @@ if( count($this->branches) > 0 )
         if( $branch != $this->branch )
         {
             echo '<li class="merge">
-            <a href="?merge='.urlencode( $branch).'">'.$this->escape($branch)."</a>
+            <a href="?merge='.urlencode( $branch ).'">'.$this->escape( $branch )."</a>
             </li>\n";
         }
     }
@@ -18,10 +18,31 @@ if( count($this->branches) > 0 )
 
 <div class="title"><p>Tracked remotes</p></div>
 <ul class="list">
-
+<?php
+if( count($this->remotes) > 0 )
+{
+    foreach( $this->remotes as $remote )
+    {
+        echo '<li class="pull">
+            <a href="?pull='.urlencode( $remote ).'">'.$this->escape( $remote )."</a>
+            </li>\n";
+    }
+}
+?>
 </ul>
 
 <div class="title"><p>Available remote sources</p></div>
-<ul class="list">
 
+<ul class="list">
+<?php
+if( count($this->avail) > 0 )
+{
+    foreach( $this->avail as $uid => $user  )
+    {
+        echo '<li class="avail">
+            <a href="?avail='.urlencode( $uid ).'">'.$this->escape( $user )."</a>
+            </li>\n";
+    }
+}
+?>
 </ul>
