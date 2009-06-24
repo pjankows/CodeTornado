@@ -16,9 +16,10 @@ class Git
     const name_rev = 'name-rev';
     const rm = 'rm';
     const pull = 'pull';
-    const remote = 'remote';
+    //const remote = 'remote';
     const remote_add = 'remote add -f';
     const merge = 'merge';
+    const fetch = 'fetch';
     const cd = 'cd';
 
     private $_shell;
@@ -231,13 +232,6 @@ class Git
         return($result);
     }
 
-    public function getRemotes()
-    {
-        $result = $this->_run( self::remote );
-        $result = $this->_splitByN( $result );
-        return($result);
-    }
-
     public function getRemoteBranches()
     {
         $result = $this->_run( self::branch_remote );
@@ -249,5 +243,10 @@ class Git
     {
         $result = $this->_run( self::merge, $branch );
         return($result);
+    }
+
+    public function fetch($remote)
+    {
+
     }
 }

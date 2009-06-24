@@ -8,7 +8,7 @@ class TestController extends MainController
 {
     public function indexAction()
     {
-        $result = array();
+//         $result = array();
 //         $this->_storage->clearAll();
 //         $this->_storage->setProject(1);
 //         $this->_storage->setUserPath('1/');
@@ -19,13 +19,13 @@ class TestController extends MainController
 //         $result['gitPath'] = $this->_storage->getGitUserPath();
 //         $result['localPath'] = $this->_storage->getWorkLocalPath();
 //         $this->_storage->setProject(111);
-        //$this->_storage->path->fromUid(23);
-        $b = new HistoryNavigation();
-        $result = $b->getHistory();
-        $result2 = $b->getHeadName();
-        $this->_logger = Zend_Registry::get('logger');
-        $this->_logger->log($result, Zend_Log::INFO);
-        $this->_logger->log($result2, Zend_Log::INFO);
-        $this->view->test = $result;
+//         $this->_storage->path->fromUid(23);
+//         $b = new HistoryNavigation();
+//         $result = $b->getHistory();
+//         $result2 = $b->getHeadName();
+//         $this->_logger = Zend_Registry::get('logger');
+//         $this->_logger->log($result, Zend_Log::INFO);
+//         $this->_logger->log($result2, Zend_Log::INFO);
+//         $this->view->test = $result;
     }
 }

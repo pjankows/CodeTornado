@@ -27,6 +27,11 @@ class AjaxController extends MainController
         }
     }
 
+    private function testAction()
+    {
+        $result =
+    }
+
     /**
      * Universal method used by file / directory creation
     */
