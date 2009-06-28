@@ -27,11 +27,6 @@ class AjaxController extends MainController
         }
     }
 
-    private function testAction()
-    {
-        $result =
-    }
-
     /**
      * Universal method used by file / directory creation
     */
@@ -139,5 +134,13 @@ class AjaxController extends MainController
             $post = $request->getPost();
             $io->saveContent($code);
         }
+    }
+
+    /**
+     * TODO:
+    */
+    public function updateAction()
+    {
+        $this->_helper->json(array());
     }
 }

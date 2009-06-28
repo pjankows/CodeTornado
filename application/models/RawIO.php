@@ -1,8 +1,8 @@
 <?php
 class RawIO
 {
-    private $_pathname = NULL;
-    private $_name = NULL;
+    private $_pathname;
+    private $_name;
     private $_storage;
     //private $_session;
 

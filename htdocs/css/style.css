@@ -151,6 +151,9 @@ div.title p{
     color: #aaa;
     padding: 1px 10px;
 }
+#loader{
+    float: right;
+}
 .hidden{
     display: none;
 }

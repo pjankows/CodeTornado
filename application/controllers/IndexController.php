@@ -90,7 +90,10 @@ class IndexController extends MainController
         if( isset($_POST['code']) )
         {
             $code = $_POST['code'];
-            $io->saveContent($code);
+            if( $io->getFile() !== NULL )
+            {
+                $io->saveContent($code);
+            }
             if( isset( $_POST['commitMessage'] ) )
             {
                 $msg = $_POST['commitMessage'];

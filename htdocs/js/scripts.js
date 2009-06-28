@@ -1,3 +1,5 @@
+const TIMING = 5000;
+
 function hideNewFile() {
     dojo.addClass("newfile", "hidden");
     return( false );
@@ -94,6 +96,28 @@ function saveFile(e) {
     });
 }
 
+function updateContent(d) {
+    dojo.addClass("loader", "hidden");
+}
+
+function update() {
+    var d;
+    dojo.removeClass("loader", "hidden");
+    d = new Date();
+    console.log("update " + d.toLocaleString());
+    dojo.xhrGet({
+        url: "/ajax/update/",
+        handleAs: "text",
+        timeout: TIMING,
+        load: function(data) {
+            updateContent(d);
+        },
+        error: function(error) {
+            dojo.addClass("loader", "hidden");
+        }
+    });
+}
+
 // function getFile(e) {
 //     e.preventDefault();
 //     dojo.xhrGet({
@@ -143,4 +167,5 @@ function init() {
     var $branchForm = dojo.byId("newBranchForm");
     dojo.connect($branchForm, "onsubmit", "newBranchFormSubmit");
 
+    timer = setInterval("update()", TIMING);
 }
