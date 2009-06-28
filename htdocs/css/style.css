@@ -121,11 +121,16 @@ div.title p{
     left:0;
     margin-left:0;
 }
+#merger .list{
+    right: 0;
+    margin-left:0;
+}
 #navigation .rev{list-style-image: url('/images/i-rev.png');}
 #navigation .branch{list-style-image: url('/images/i-branch.png');}
 #navigation .file{list-style-image: url('/images/i-file.png');}
 #navigation .dir{list-style-image: url('/images/i-dir.png');}
 #navigation .updir{list-style-image: url('/images/i-up.png');}
+#merger .status{list-style-image: url('/images/i-status.png');}
 #merger .merge{list-style-image: url('/images/i-merge.png');}
 #merger .pull{list-style-image: url('/images/i-pull.png');}
 #merger .avail{list-style-image: url('/images/i-avail.png');}
@@ -152,7 +157,9 @@ div.title p{
     padding: 1px 10px;
 }
 #loader{
-    float: right;
+    position: absolute;
+    right:0;
+    top:0;
 }
 .hidden{
     display: none;
