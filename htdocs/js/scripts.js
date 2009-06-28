@@ -104,8 +104,20 @@ function updateContent(d)
         dojo.create
         (
             "li",
-            {innerHTML: "<a href=\"?pull=" +  escape(entry) + "\">" + entry + "</a>", class: "pull" },
+            {innerHTML: "<a href=\"?pull=" +  escape(entry) + "\">" + entry + "</a>",
+            class: "pull" },
             "remotes"
+        )
+    });
+    dojo.empty("avail");
+    dojo.forEach(d.avail.uid, function(entry, i)
+    {
+        dojo.create
+        (
+            "li",
+            {innerHTML: "<a href=\"?avail=" +  escape(entry) + "\">" + d.avail.user[i] + "</a>",
+            class: "avail" },
+            "avail"
         )
     });
     dojo.addClass("loader", "hidden");

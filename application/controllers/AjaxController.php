@@ -138,7 +138,7 @@ class AjaxController extends MainController
     }
 
     /**
-     * TODO:
+     * TODO: finish status
     */
     public function updateAction()
     {
@@ -146,7 +146,8 @@ class AjaxController extends MainController
         $remotes = new Remotes();
         $remotes->setUid( $this->_user->loggedIn->uid );
         $result['remotes'] = $remotes->getRemotes();
-        $result['avail'] = array();
+        $result['avail']['uid'] = array_keys( $remotes->getRepos() );
+        $result['avail']['user'] = array_values( $remotes->getRepos() );
         $result['status'] = array();
         $this->_helper->json($result);
     }
