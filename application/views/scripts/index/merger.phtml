@@ -1,5 +1,5 @@
 <div class="title"><p>Merge</p><p>Local branches:</p></div>
-<ul class="list">
+<ul class="list" id="locals">
 <?php
 if( count($this->branches) > 0 )
 {
@@ -17,7 +17,7 @@ if( count($this->branches) > 0 )
 </ul>
 
 <div class="title"><p>Pull</p><p>Tracked remote branches:</p></div>
-<ul class="list">
+<ul class="list" id="remotes">
 <?php
 if( count($this->remotes) > 0 )
 {
@@ -32,8 +32,7 @@ if( count($this->remotes) > 0 )
 </ul>
 
 <div class="title"><p>Add remote</p><p>Available remote sources:</p></div>
-
-<ul class="list">
+<ul class="list" id="avail">
 <?php
 if( count($this->avail) > 0 )
 {

@@ -2,6 +2,7 @@
 require_once MODEL_PATH . 'FileNavigation.php';
 require_once MODEL_PATH . 'BranchNavigation.php';
 require_once MODEL_PATH . 'HistoryNavigation.php';
+require_once MODEL_PATH . 'Remotes.php';
 require_once FORM_PATH . 'NewFileForm.php';
 require_once FORM_PATH . 'NewDirForm.php';
 require_once FORM_PATH . 'NewBranchForm.php';
@@ -141,6 +142,12 @@ class AjaxController extends MainController
     */
     public function updateAction()
     {
-        $this->_helper->json(array());
+        $result = array();
+        $remotes = new Remotes();
+        $remotes->setUid( $this->_user->loggedIn->uid );
+        $result['remotes'] = $remotes->getRemotes();
+        $result['avail'] = array();
+        $result['status'] = array();
+        $this->_helper->json($result);
     }
 }

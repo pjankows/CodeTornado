@@ -96,21 +96,31 @@ function saveFile(e) {
     });
 }
 
-function updateContent(d) {
+function updateContent(d)
+{
+    dojo.empty("remotes");
+    dojo.forEach(d.remotes, function(entry, i)
+    {
+        dojo.create
+        (
+            "li",
+            {innerHTML: "<a href=\"?pull=" +  escape(entry) + "\">" + entry + "</a>", class: "pull" },
+            "remotes"
+        )
+    });
     dojo.addClass("loader", "hidden");
 }
 
 function update() {
-    var d;
+    var d = new Date();
     dojo.removeClass("loader", "hidden");
-    d = new Date();
     console.log("update " + d.toLocaleString());
     dojo.xhrGet({
         url: "/ajax/update/",
-        handleAs: "text",
+        handleAs: "json",
         timeout: TIMING,
         load: function(data) {
-            updateContent(d);
+            updateContent(data);
         },
         error: function(error) {
             dojo.addClass("loader", "hidden");
