@@ -1,6 +1,7 @@
 <?php
 require_once MODEL_PATH . 'RawIO.php';
 require_once MODEL_PATH . 'Git.php';
+require_once MODEL_PATH . 'Status.php';
 require_once MODEL_PATH . 'Remotes.php';
 require_once MODEL_PATH . 'FileNavigation.php';
 require_once MODEL_PATH . 'BranchNavigation.php';
@@ -41,6 +42,8 @@ class IndexController extends MainController
         $historyNavigation = new HistoryNavigation();
         $remotes = new Remotes();
         $remotes->setUid( $this->_user->loggedIn->uid );
+        $status = new Status();
+        $status->setUid( $this->_user->loggedIn->uid );
 
         $git = new Git();
         if( $request->isGet() )
@@ -60,29 +63,35 @@ class IndexController extends MainController
                 if( $fileNavigation->validFile( $request->getQuery('file') ) )
                 {
                     $io->setFile( $fileNavigation->getPath(), $request->getQuery('file') );
+                    $status->addStatus('open: /' . $fileNavigation->getDir() . $request->getQuery('file'));
                 }
             }
             //===end file navigation===
             if( $request->getQuery('branch') != NULL )
             {
                 $result = $branchNavigation->setBranch( $request->getQuery('branch') );
+                $status->addStatus('branch: ' . $request->getQuery('branch'));
             }
             if( $request->getQuery('sha') != NULL )
             {
                 $result = $historyNavigation->setRev( $request->getQuery('sha') );
+                $status->addStatus('history: ' . $request->getQuery('sha'));
             }
             //===begin merger===
             if( $request->getQuery('merge') != NULL )
             {
                 $result = $git->merge( $request->getQuery('merge') );
+                $status->addStatus('merge: ' . $request->getQuery('merge'));
             }
             if( $request->getQuery('pull') != NULL )
             {
                 $result = $remotes->pullRemote( $request->getQuery('pull') );
+                $status->addStatus('pull: ' . $request->getQuery('pull'));
             }
             if( $request->getQuery('avail') != NULL )
             {
                 $result = $remotes->addRemote( $request->getQuery('avail') );
+                $status->addStatus('add remote: ' . $request->getQuery('avail'));
             }
             //===end merger===
         }
@@ -93,11 +102,13 @@ class IndexController extends MainController
             if( $io->getFile() !== NULL )
             {
                 $io->saveContent($code);
+                $status->addStatus('save: ' . $io->getFile());
             }
-            if( isset( $_POST['commitMessage'] ) )
+            if( isset( $_POST['commitMessage'] ) && ($_POST['commitMessage'] != '') )
             {
                 $msg = $_POST['commitMessage'];
                 $result = $git->autoCommit($msg);
+                $status->addStatus('commit: ' . $msg);
             }
         }
         $this->view->result = $result;
@@ -111,6 +122,7 @@ class IndexController extends MainController
         $this->view->history = $historyNavigation->getHistory();
         $this->view->headName = $historyNavigation->getHeadName();
 
+        $this->view->status = $status->getStatusMessages();
         $this->view->avail = $remotes->getRepos();
         $this->view->remotes = $remotes->getRemotes();
 

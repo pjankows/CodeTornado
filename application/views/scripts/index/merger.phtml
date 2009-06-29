@@ -1,6 +1,16 @@
 <div class="title"><p>Status</p><p>Recent actions</p></div>
 <ul class="list" id="status">
-<li class="status"><p>test</p></li>
+<?php
+if( count($this->status) > 0 )
+{
+    foreach( $this->status as $st )
+    {
+        echo '<li class="status"><p>'
+        . $st['name'] . ' ' . $st['t'] . '<br />' . $st['action']
+        . "</p></li>\n";
+    }
+}
+?>
 </ul>
 
 <div class="title"><p>Merge</p><p>Local branches:</p></div>

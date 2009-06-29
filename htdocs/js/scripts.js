@@ -1,4 +1,4 @@
-const TIMING = 5000;
+var TIMING = 5000;
 
 function hideNewFile() {
     dojo.addClass("newfile", "hidden");

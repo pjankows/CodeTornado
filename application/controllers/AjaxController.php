@@ -128,6 +128,7 @@ class AjaxController extends MainController
     */
     public function saveAction()
     {
+        $this->_check();
         $request = $this->getRequest();
         $io = new RawIO();
         if( $request->isPost() )
@@ -138,16 +139,18 @@ class AjaxController extends MainController
     }
 
     /**
-     * TODO: finish status
+     * Real time update called every X miliseconds defined in scripts.js (5000)
     */
     public function updateAction()
     {
+        $this->_check();
         $result = array();
         $remotes = new Remotes();
         $remotes->setUid( $this->_user->loggedIn->uid );
+        $repos = $remotes->getRepos();
         $result['remotes'] = $remotes->getRemotes();
-        $result['avail']['uid'] = array_keys( $remotes->getRepos() );
-        $result['avail']['user'] = array_values( $remotes->getRepos() );
+        $result['avail']['uid'] = array_keys( $repos );
+        $result['avail']['user'] = array_values( $repos );
         $result['status'] = array();
         $this->_helper->json($result);
     }
