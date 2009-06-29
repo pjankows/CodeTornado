@@ -156,7 +156,7 @@ div.title p{
     color: #aaa;
     padding: 1px 10px;
 }
-#loader{
+#loader, #fileloader{
     position: absolute;
     right:0;
     top:0;

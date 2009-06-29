@@ -2,6 +2,7 @@
 <p>File navigation</p><p>Path: <?php echo $this->escape($this->path) ?></p>
 </div>
 <ul class="list">
+<img id="fileloader" class="hidden" src="/images/loader.gif" alt="Loading" />
 <?php if( strlen($this->path) > 1 ) {?>
 <li class="updir"><a href="?updir=1">Up dir ..</a></li>
 <?php } ?>
@@ -14,7 +15,8 @@ if( count( $this->files['dirs'] ) > 0 )
 if( count( $this->files['files'] ) > 0 )
     foreach( $this->files['files'] as $file )
     {
-        echo '<li class="file"><a href="?file='.urlencode( $file ).'">'.$this->escape($file)."</a></li>\n";
+        echo '<li class="file"><a href="#" onclick ="getFile(\''
+        . $file .'\')">'.$this->escape($file)."</a></li>\n";
     }
 ?>
 </ul>

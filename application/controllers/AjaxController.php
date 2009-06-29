@@ -1,4 +1,5 @@
 <?php
+require_once MODEL_PATH . 'RawIO.php';
 require_once MODEL_PATH . 'FileNavigation.php';
 require_once MODEL_PATH . 'BranchNavigation.php';
 require_once MODEL_PATH . 'HistoryNavigation.php';
@@ -66,12 +67,15 @@ class AjaxController extends MainController
         $branchNavigation = new BranchNavigation();
         $fileNavigation = new FileNavigation();
         $request = $this->getRequest();
+        $status = new Status();
+        $status->setUid( $this->_user->loggedIn->uid );
         if( $request->isPost() )
         {
             $post = $request->getPost();
             if( $form->isValid($post) )
             {
                 $branchNavigation->newBranch($post);
+                $status->addStatus('new branch: ' . $post['name_branch']);
             }
         }
         $this->view->path = '/' . $fileNavigation->getDir();
@@ -121,6 +125,8 @@ class AjaxController extends MainController
         {
             $io = new RawIO();
             $fileNavigation = new FileNavigation();
+            $status = new Status();
+            $status->setUid( $this->_user->loggedIn->uid );
             if( $fileNavigation->validFile( $request->getPost('file') ) )
             {
                 $io->setFile( $fileNavigation->getPath(), $request->getPost('file') );
@@ -157,6 +163,16 @@ class AjaxController extends MainController
     {
         $this->_check();
         $result = array();
+        $branchNavigation = new BranchNavigation();
+        $branch = $branchNavigation->getActiveBranch();
+        $branches = $branchNavigation->getBranches();
+        foreach( $branches as $key => $value )
+        {
+            if( $value == $branch )
+            {
+                unset( $branches[$key] );
+            }
+        }
         $remotes = new Remotes();
         $remotes->setUid( $this->_user->loggedIn->uid );
         $status = new Status();
@@ -167,6 +183,7 @@ class AjaxController extends MainController
         $result['avail']['uid'] = array_keys( $repos );
         $result['avail']['user'] = array_values( $repos );
         $result['status'] = $recentStatus;
+        $result['locals'] = array_values($branches);
         $this->_helper->json($result);
     }
 }

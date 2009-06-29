@@ -75,13 +75,11 @@ function newBranchFormSubmit(e) {
             console.log(data);
             hideNewBranch();
         },
-        error:function(data,args){
+        error: function(data){
             console.warn(data);
         }
     });
 }
-
-
 
 function saveFile(e) {
     e.preventDefault();
@@ -99,13 +97,15 @@ function saveFile(e) {
 }
 
 function getFile($name) {
+    dojo.removeClass("fileloader", "hidden");
     dojo.xhrPost({
         url: "/ajax/getfile/",
         handleAs: "json",
         content: { file: $name },
         load: function(data){
-            editot.setCode(data.content);
+            editor.setCode(data.content);
             dojo.byId("filename").innerHTML = data.filepath;
+            dojo.addClass("fileloader", "hidden");
         },
         error: function(data) {
             console.warn(data);
@@ -149,6 +149,17 @@ function updateContent(d)
         )
     });
     dojo.addClass("loader", "hidden");
+    dojo.empty("locals");
+    dojo.forEach(d.locals, function(entry, i)
+    {
+        dojo.create
+        (
+            "li",
+            {innerHTML: "<a href=\"?merge=" +  escape(entry) + "\">" + entry + "</a>",
+            class: "merge" },
+            "locals"
+        )
+    });
 }
 
 function update() {
