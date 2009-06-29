@@ -182,7 +182,8 @@ class Git
 
     public function setBranch($branch)
     {
-        $this->checkout($branch);
+        $result = $this->checkout($branch);
+        return($result);
     }
 
     public function newBranch($branch)

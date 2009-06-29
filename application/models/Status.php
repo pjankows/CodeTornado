@@ -28,7 +28,7 @@ class Status extends DbModel
     public function getStatusMessages()
     {
         $sql = 'SELECT sid, t, action, name FROM status, users WHERE users.uid=status.uid AND pid=? ORDER BY sid DESC LIMIT 0, 4';
-        $result = $this->_db->fetchAssoc($sql, array($this->_pid));
+        $result = $this->_db->fetchAll($sql, array($this->_pid));
         return($result);
     }
 }

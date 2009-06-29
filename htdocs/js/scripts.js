@@ -81,6 +81,8 @@ function newBranchFormSubmit(e) {
     });
 }
 
+
+
 function saveFile(e) {
     e.preventDefault();
     dojo.xhrPost({
@@ -96,8 +98,34 @@ function saveFile(e) {
     });
 }
 
+function getFile($name) {
+    dojo.xhrPost({
+        url: "/ajax/getfile/",
+        handleAs: "json",
+        content: { file: $name },
+        load: function(data){
+            editot.setCode(data.content);
+            dojo.byId("filename").innerHTML = data.filepath;
+        },
+        error: function(data) {
+            console.warn(data);
+        }
+    });
+}
+
 function updateContent(d)
 {
+    dojo.empty("status");
+    dojo.forEach(d.status, function(entry, i)
+    {
+        dojo.create
+        (
+            "li",
+            {innerHTML: "<p>" + entry.name + " " + entry.t + "<br />" + entry.action + "</p>",
+            class: "status" },
+            "status"
+        )
+    });
     dojo.empty("remotes");
     dojo.forEach(d.remotes, function(entry, i)
     {
@@ -135,25 +163,11 @@ function update() {
             updateContent(data);
         },
         error: function(error) {
+            concole.warn("update error");
             dojo.addClass("loader", "hidden");
         }
     });
 }
-
-// function getFile(e) {
-//     e.preventDefault();
-//     dojo.xhrGet({
-//         url: "/ajax/getfile/",
-//         form: "",
-//         handleAs "text",
-//         load: function(data){
-//             console.log(data);
-//         },
-//         error:function(data,args){
-//             console.warn(data);
-//         }
-//     });
-// }
 
 function init() {
     dojo.require("dijit.dijit");

@@ -3,6 +3,7 @@ require_once MODEL_PATH . 'FileNavigation.php';
 require_once MODEL_PATH . 'BranchNavigation.php';
 require_once MODEL_PATH . 'HistoryNavigation.php';
 require_once MODEL_PATH . 'Remotes.php';
+require_once MODEL_PATH . 'Status.php';
 require_once FORM_PATH . 'NewFileForm.php';
 require_once FORM_PATH . 'NewDirForm.php';
 require_once FORM_PATH . 'NewBranchForm.php';
@@ -113,14 +114,25 @@ class AjaxController extends MainController
     */
     public function getfileAction()
     {
-
-        if( $request->getQuery('file') != NULL )
+        $result = array();
+        $this->_check();
+        $request = $this->getRequest();
+        if( $request->isPost() && $request->getPost('file') != NULL )
         {
-            if( $fileNavigation->validFile( $request->getQuery('file') ) )
+            $io = new RawIO();
+            $fileNavigation = new FileNavigation();
+            if( $fileNavigation->validFile( $request->getPost('file') ) )
             {
-                $io->setFile( $fileNavigation->getPath(), $request->getQuery('file') );
+                $io->setFile( $fileNavigation->getPath(), $request->getPost('file') );
+                $status->addStatus('open: /' . $fileNavigation->getDir() . $request->getPost('file'));
+                $content = $io->getContent();
+                $editing = $io->getFile();
+                $path = '/' . $fileNavigation->getDir();
+                $result['content'] = $content;
+                $result['filepath'] = $path . $editing;
             }
         }
+        $this->_helper->json($result);
     }
 
     /**
@@ -147,11 +159,14 @@ class AjaxController extends MainController
         $result = array();
         $remotes = new Remotes();
         $remotes->setUid( $this->_user->loggedIn->uid );
+        $status = new Status();
+        $status->setUid( $this->_user->loggedIn->uid );
+        $recentStatus = $status->getStatusMessages();
         $repos = $remotes->getRepos();
         $result['remotes'] = $remotes->getRemotes();
         $result['avail']['uid'] = array_keys( $repos );
         $result['avail']['user'] = array_values( $repos );
-        $result['status'] = array();
+        $result['status'] = $recentStatus;
         $this->_helper->json($result);
     }
 }
