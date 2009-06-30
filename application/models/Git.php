@@ -22,6 +22,7 @@ class Git
     const fetch = 'fetch';
     const cd = 'cd';
     const cat_file_p = 'cat-file -p';
+    const status = 'status';
 
     private $_shell;
     private $_git;
@@ -252,8 +253,15 @@ class Git
         return($result);
     }
 
-    public function catFileHEAD()
+    public function catFileP($id)
     {
-        $result = $this->_run( self::cat_file_p, 'HEAD' );
+        $result = $this->_run( self::cat_file_p, $id );
+        return($result);
+    }
+
+    public function status()
+    {
+        $result = $this->_run( self::status );
+        return($result);
     }
 }

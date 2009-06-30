@@ -119,6 +119,7 @@ class IndexController extends MainController
         $this->view->files = $fileNavigation->ls();
         $this->view->branch = $branchNavigation->getActiveBranch();
         $this->view->branches = $branchNavigation->getBranches();
+        $this->view->state = $branchNavigation->getState();
         $this->view->history = $historyNavigation->getHistory();
         $this->view->headName = $historyNavigation->getHeadName();
 

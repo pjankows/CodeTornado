@@ -64,4 +64,11 @@ class BranchNavigation
             throw new Exception('Branch name in incorrect format');
         }
     }
+
+    public function getState()
+    {
+        $msg = $this->_git->catFileP('HEAD');
+        $state = $this->_git->status();
+        return( $state . "\n" . $msg );
+    }
 }

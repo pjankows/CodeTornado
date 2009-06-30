@@ -49,8 +49,10 @@
 <input type="text" name="commitMessage" id="commitMessage" class="inputtext" />
 </p>
 </form>
-<?php echo $this->result; ?>
-
+<pre>
+<?php echo $this->escape($this->result); ?>
+<?php echo $this->escape($this->state); ?>
+</pre>
 </div>
 
 <div id="right">
@@ -61,9 +63,6 @@
 
 <img id="loader" class="hidden" src="/images/loader.gif" alt="Loading" />
 
-</div>
-
-<div id="commitinfo">
 </div>
 
 <div id="footer">
