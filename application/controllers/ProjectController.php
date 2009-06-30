@@ -1,4 +1,5 @@
 <?php
+require_once MODEL_PATH . 'Status.php';
 require_once FORM_PATH . 'NewProjectForm.php';
 require_once FORM_PATH . 'JoinProjectForm.php';
 class ProjectController extends MainController
@@ -94,7 +95,16 @@ class ProjectController extends MainController
         {
             $project = $request->getQuery('pro');
             $this->_project->selectProject($project);
+            $status = new Status();
+            $status->setUid( $this->_user->loggedIn->uid );
+            $status->addStatus('opened project');
             $this->_redirect('/');
+        }
+        else
+        {
+            $status = new Status();
+            $status->setUid( $this->_user->loggedIn->uid );
+            $status->addStatus('left for project selection');
         }
     }
 }

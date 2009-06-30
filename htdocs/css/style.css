@@ -141,7 +141,7 @@ div.title p{
 #commitMessage{
     width: 60%;
 }
-#footer{
+#footer, #commitinfo{
     clear: both;
 }
 .CodeMirror-line-numbers{

@@ -22,12 +22,15 @@ class Status extends DbModel
             'uid' => $this->_uid,
             'action' => $msg
         );
-        $this->_db->insert('status', $data);
+        if( isset($this->_pid) )
+        {
+            $this->_db->insert('status', $data);
+        }
     }
 
     public function getStatusMessages()
     {
-        $sql = 'SELECT sid, t, action, name FROM status, users WHERE users.uid=status.uid AND pid=? ORDER BY sid DESC LIMIT 0, 4';
+        $sql = 'SELECT sid, t, action, name FROM status, users WHERE users.uid=status.uid AND pid=? ORDER BY sid DESC LIMIT 0, 5';
         $result = $this->_db->fetchAll($sql, array($this->_pid));
         return($result);
     }

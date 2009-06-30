@@ -1,4 +1,5 @@
 <?php
+require_once MODEL_PATH . 'Status.php';
 require_once FORM_PATH . 'RegisterForm.php';
 require_once FORM_PATH . 'LoginForm.php';
 class UserController extends MainController
@@ -46,7 +47,12 @@ class UserController extends MainController
 
     public function logoutAction()
     {
-        //$this->_storage->clearAll();
+        if( isset( $this->_user->loggedIn->uid ) )
+        {
+            $status = new Status();
+            $status->setUid( $this->_user->loggedIn->uid );
+            $status->addStatus('logout');
+        }
         $this->_user->logout();
         $this->view->loginMsg = self::LOGOUT;
         $this->_forward('login');

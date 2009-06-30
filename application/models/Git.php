@@ -21,6 +21,7 @@ class Git
     const merge = 'merge';
     const fetch = 'fetch';
     const cd = 'cd';
+    const cat_file_p = 'cat-file -p';
 
     private $_shell;
     private $_git;
@@ -189,8 +190,6 @@ class Git
     public function newBranch($branch)
     {
         $result = $this->_run( self::branch, $branch );
-        //$result = $this->_run( self::branch, '_auto_' . $branch );
-        $result = $this->checkout( '_auto_' . $branch );
         return($result);
     }
 
@@ -251,5 +250,10 @@ class Git
     {
         $result= $this->_run( self::remote_update );
         return($result);
+    }
+
+    public function catFileHEAD()
+    {
+        $result = $this->_run( self::cat_file_p, 'HEAD' );
     }
 }
