@@ -141,6 +141,13 @@ div.title p{
 #commitMessage{
     width: 60%;
 }
+#console{
+    margin: 10px;
+    background-color: #EDECE6;
+}
+#console pre{
+    margin: 10px;
+}
 #footer{
     clear: both;
 }

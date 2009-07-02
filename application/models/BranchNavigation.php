@@ -48,7 +48,7 @@ class BranchNavigation
 
     public function setBranch($branch)
     {
-        $this->_git->autoCommit('AutoCommit: Changing branch to '.$branch);
+        $this->_git->autoCommit('AutoCommit: Changing branch from '. $this->getActiveBranch() .' to '.$branch);
         $this->_git->setBranch($branch);
     }
 
