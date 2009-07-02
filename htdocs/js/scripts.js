@@ -122,7 +122,7 @@ function updateContent(d)
         (
             "li",
             {innerHTML: "<p>" + entry.name + " " + entry.t + "<br />" + entry.action + "</p>",
-            class: "status" },
+            "class": "status"},
             "status"
         )
     });
@@ -133,7 +133,7 @@ function updateContent(d)
         (
             "li",
             {innerHTML: "<a href=\"?pull=" +  escape(entry) + "\">" + entry + "</a>",
-            class: "pull" },
+            "class": "pull" },
             "remotes"
         )
     });
@@ -144,7 +144,7 @@ function updateContent(d)
         (
             "li",
             {innerHTML: "<a href=\"?avail=" +  escape(entry) + "\">" + d.avail.user[i] + "</a>",
-            class: "avail" },
+            "class": "avail" },
             "avail"
         )
     });
@@ -156,7 +156,7 @@ function updateContent(d)
         (
             "li",
             {innerHTML: "<a href=\"?merge=" +  escape(entry) + "\">" + entry + "</a>",
-            class: "merge" },
+            "class": "merge" },
             "locals"
         )
     });

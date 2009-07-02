@@ -6,8 +6,6 @@ Yahoo! Inc. under the BSD (revised) open source license
 @author Dan Vlad Dascalescu <dandv@yahoo-inc.com>
 
 Based on parsehtmlmixed.js by Marijn Haverbeke.
-
-Modified by Piotr Jankowski
 */
 
 var PHPHTMLMixedParser = Editor.Parser = (function() {
@@ -42,9 +40,7 @@ var PHPHTMLMixedParser = Editor.Parser = (function() {
     }
     function local(parser, tag) {
       var baseIndent = htmlParser.indentation();
-      //localParser = parser.make(stream, baseIndent + indentUnit);
-      //MODIFIED: disable indentation when switching parsers
-      localParser = parser.make(stream, baseIndent);
+      localParser = parser.make(stream, baseIndent + indentUnit);
       return function() {
         if (stream.lookAhead(tag, false, false, true)) {
           localParser = null;
