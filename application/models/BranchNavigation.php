@@ -69,6 +69,6 @@ class BranchNavigation
     {
         $msg = $this->_git->catFileP('HEAD');
         $state = $this->_git->status();
-        return( $state . "\n" . $msg );
+        return( "State:\n" . $state . "\nLast commit:\n" . $msg );
     }
 }
